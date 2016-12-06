@@ -1,0 +1,21 @@
+<package>
+  <name>prisme_gazebo</name>
+  <version>0.1.0</version>
+  <description>prisme_gazebo</description>
+  <maintainer email="paul.edouard.sarlin@gmail.com">Paul-Edouard Sarlin</maintainer>
+
+  <license>BSD</license>
+
+  <author email="paul.edouard.sarlin@gmail.com">Paul-Edouard Sarlin</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>gazebo_plugins</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>gazebo_ros_control</run_depend>
+  <run_depend>prisme_description</run_depend>
+  <run_depend>xacro</run_depend>
+
+  <export>
+  </export>
+</package>

@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+
+<robot name="prisme" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+
+	<!-- Fake values -->
+  <xacro:property name="mass_body" value="0.4" />
+	<xacro:property name="mass_wheel" value="0.1" />
+	<xacro:property name="mass_bpack" value="0.2" />
+
+	<xacro:property name="width" value="0.0936" /> <!-- 2*46.8 = 93.6 mm -->
+	<xacro:property name="length" value="0.120" /> <!-- 120 mm -->
+	<xacro:property name="height" value="0.036" /> <!-- 18+75=93 mm -->
+	<xacro:property name="height_axis" value="0.018" /> <!-- 18 mm -->
+	<xacro:property name="offset_side" value="0.002" /> <!-- 2 mm -->
+
+	<xacro:property name="wheel_thick" value="0.008" /> <!-- 8 mm -->
+	<xacro:property name="wheel_rad" value="0.035" /> <!-- 35 mm -->
+
+	<xacro:property name="caster_sphere_rad" value="0.006" /> <!-- 6 mm -->
+	<xacro:property name="caster_rod_length" value="${(wheel_rad-height_axis)-2*caster_sphere_rad}" />
+	<xacro:property name="caster_offset" value="0.045" /> <!-- 45 mm -->
+
+	<xacro:property name="bpack_length" value="0.028" /> <!-- 28 mm -->
+	<xacro:property name="bpack_width" value="0.045" /> <!-- 45 mm -->
+	<xacro:property name="bpack_offset" value="0.010" /> <!-- 10 mm -->
+	<xacro:property name="bpack_height" value="0.058" /> <!-- 58 mm -->
+
+  <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+  <xacro:include filename="$(find prisme_description)/urdf/prisme.gazebo" />
+  <!-- Import Rviz colors -->
+  <xacro:include filename="$(find prisme_description)/urdf/materials.xacro" />
+
+  <!-- Base Link -->
+  <link name="base">
+    <collision>
+      <origin xyz="0 0 ${wheel_rad - height_axis}" rpy="${PI/2} 0 ${PI/2}"/>
+      <geometry>
+				<mesh filename="package://prisme_description/meshes/simplified_body_v2.stl" scale="0.001 0.001 0.001"/>
+					<!--> <scale scale="1 .001 .001">1 0.001 0.001</scale> -->
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 ${PI/2}"/>
+      <geometry>
+				<mesh filename="package://prisme_description/meshes/simplified_body_v2.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+
+    <inertial>
+      <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
+      <mass value="${mass_body}"/>
+			<!-- Fake values -->
+      <inertia 
+				ixx="1.0" ixy="0.0" ixz="0.0"
+	  		iyy="1.0" iyz="0.0"
+	  		izz="1.0"/>
+    </inertial>
+  </link>
+
+	<!-- Wheel Macro -->
+	<xacro:macro name="wheel" params="side reflect">
+		<link name="wheel_${side}">
+			<collision>
+				<origin rpy="${reflect*PI/2} 0 0" />
+				<geometry>
+					<cylinder length="${wheel_thick}" radius="${wheel_rad}" />
+				</geometry>
+			</collision>
+
+			<visual>
+				<origin rpy="${reflect*PI/2} 0 0" />
+				<geometry>
+					<cylinder length="${wheel_thick}" radius="${wheel_rad}" />
+				</geometry>
+			</visual>
+
+		  <inertial>
+		    <origin xyz="0 0 0" rpy="0 0 0"/> <!-- maybe wrong... -->
+		    <mass value="${mass_wheel}"/>
+				<!-- Fake values -->
+		    <inertia 
+					ixx="0.1" ixy="0.0" ixz="0.0"
+					iyy="0.1" iyz="0.0"
+					izz="0.1"/>
+		  </inertial>
+		</link>
+
+		<joint name="joint_${side}" type="continuous">
+    	<parent link="base"/>
+    	<child link="wheel_${side}"/>
+    	<origin xyz="0 ${reflect*(width/2+offset_side+wheel_thick/2)} ${height_axis}" rpy="0 0 0"/>
+    	<axis xyz="0 1 0"/>
+    	<dynamics damping="0.7"/>
+  	</joint>
+
+	</xacro:macro>
+
+	<!-- Wheels -->
+	<xacro:wheel side="left" reflect="1" />
+	<xacro:wheel side="right" reflect="-1" />
+
+	<!-- Caster rod Link -->
+	<link name="caster_rod">
+		<collision>
+			<geometry>
+				<cylinder length="${caster_rod_length}" radius="${caster_sphere_rad/3}"/>
+			</geometry>
+		</collision>
+
+		<visual>
+			<geometry>
+				<cylinder length="${caster_rod_length}" radius="${caster_sphere_rad/3}"/>
+			</geometry>
+      <material name="white"/>
+		</visual>
+	</link>
+
+	<!-- Caster rod Joint -->
+	<joint name="joint_caster_rod" type="fixed">
+  	<parent link="base"/>
+  	<child link="caster_rod"/>
+  	<origin xyz="${-caster_offset} 0 ${-caster_rod_length/2}" rpy="0 0 0"/>
+	</joint>
+
+	<!-- Caster sphere Link -->
+	<link name="caster_sphere">
+		<collision>
+			<geometry>
+				<sphere radius="${caster_sphere_rad}"/>
+			</geometry>
+		</collision>
+
+		<visual>
+			<geometry>
+				<sphere radius="${caster_sphere_rad}"/>
+			</geometry>
+			<material name="white"/>
+		</visual>
+	</link>
+
+	<!-- Caster sphere Joint -->
+	<joint name="joint_caster_sphere" type="fixed">
+  	<parent link="caster_rod"/>
+  	<child link="caster_sphere"/>
+  	<origin xyz="0 0 ${-caster_rod_length/2-caster_sphere_rad}" rpy="0 0 0"/>
+	</joint>
+
+	<!-- Bpack Link -->
+	<link name="bpack">
+		<collision>
+			<geometry>
+				<box size="${bpack_length} ${bpack_width} ${bpack_height}"/>
+			</geometry>
+		</collision>
+
+		<visual>
+			<geometry>
+				<box size="${bpack_length} ${bpack_width} ${bpack_height}"/>
+			</geometry>
+      <material name="red"/>
+		</visual>
+
+	  <inertial>
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	    <mass value="${mass_bpack}"/>
+			<!-- Fake values -->
+	    <inertia 
+				ixx="0.1" ixy="0.0" ixz="0.0"
+				iyy="0.1" iyz="0.0"
+				izz="0.1"/>
+	  </inertial>
+	</link>
+
+	<!-- Bpack Joint -->
+	<joint name="joint_bpack" type="fixed">
+  	<parent link="base"/>
+  	<child link="bpack"/>
+  	<origin xyz="${-(length/2 - bpack_offset - bpack_length/2)} 0 ${bpack_height/2}" rpy="0 0 0"/>
+	</joint>
+
+</robot>
