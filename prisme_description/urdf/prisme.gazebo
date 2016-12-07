@@ -1,23 +1,30 @@
 <?xml version="1.0"?>
-<robot>
+<robot name="prisme" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<xacro:property name="update_rate" value="30" />
+
+	<xacro:property name="ir_fov" value="0.2" />
+	<xacro:property name="ir_min_range" value="0.005" />
+	<xacro:property name="ir_max_range" value="0.10" />
+	<xacro:property name="ir_res" value="0.005" />
 
   <!-- Base -->
   <gazebo reference="base">
-    <material>Gazebo/Orange</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
   <!-- Wheels -->
-  <gazebo reference="wheel_left">
-    <mu1>0.9</mu1>
-    <mu2>0.9</mu2>
-    <material>Gazebo/Black</material>
-  </gazebo>
-	<gazebo reference="wheel_right">
-    <mu1>0.9</mu1>
-    <mu2>0.9</mu2>
-    <material>Gazebo/Black</material>
-  </gazebo>
+	<xacro:macro name="wheel_gz" params="side">
+		<gazebo reference="wheel_${side}">
+		  <mu1>20</mu1>
+		  <mu2>20</mu2>
+		  <material>Gazebo/Black</material>
+		</gazebo>
+	</xacro:macro>
+	<xacro:wheel_gz side="left"/>
+	<xacro:wheel_gz side="right"/>
 
+	<!-- Caster -->
   <gazebo reference="caster_rod">
     <material>Gazebo/White</material>
   </gazebo>
@@ -27,8 +34,68 @@
     <material>Gazebo/White</material>
   </gazebo>
 
+	<!-- Battery Pack -->
   <gazebo reference="bpack">
-    <material>Gazebo/Red</material>
+    <material>Gazebo/Purple</material>
   </gazebo>
+
+  <!-- IR front macro -->
+	<xacro:macro name="ir_front_gz" params="position angle">
+		<gazebo reference="ir_front_${position}">
+
+			<material>Gazebo/Green</material>
+
+			<sensor type="ray" name="sensor_ir_front_${position}">
+			  <visualize>true</visualize>
+			  <update_rate>${update_rate}</update_rate>
+			  <ray>
+			    <scan>
+			      <horizontal>
+			        <samples>5</samples>
+			        <resolution>1</resolution>
+			        <min_angle>-${ir_fov/2}</min_angle>
+			        <max_angle>${ir_fov/2}</max_angle>
+			      </horizontal>
+			    </scan>
+			    <range>
+			      <min>${ir_min_range}</min>
+			      <max>${ir_max_range}</max>
+			      <resolution>${ir_res}</resolution>
+			    </range>
+			  </ray>
+			  <plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+					<gaussianNoise>0.005</gaussianNoise>
+			    <alwaysOn>true</alwaysOn>
+					<updateRate>${update_rate}</updateRate>
+					<radiation>infrared</radiation>
+					<fov>${ir_fov}</fov>
+			    <topicName>/prisme/ir_front_${position}</topicName>
+			    <frameName>ir_front_${position}</frameName>
+			  </plugin>
+			</sensor>
+		</gazebo>
+	</xacro:macro>
+
+	<xacro:ir_front_gz position="left_center" angle="0." />
+	<xacro:ir_front_gz position="right_center" angle="-0.3054" />
+	<xacro:ir_front_gz position="left" angle="0.7418" />
+	<xacro:ir_front_gz position="right" angle="-0.7418" />
+
+	<gazebo>
+		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+		  <alwaysOn>true</alwaysOn>
+		  <updateRate>${update_rate}</updateRate>
+		  <leftJoint>joint_left</leftJoint>
+		  <rightJoint>joint_right</rightJoint>
+		  <wheelSeparation>${width+2*offset_side+wheel_thick}</wheelSeparation>
+		  <wheelDiameter>${2*wheel_rad}</wheelDiameter>
+		  <torque>20</torque>
+		  <commandTopic>cmd_vel</commandTopic>
+		  <odometryTopic>odom</odometryTopic>
+		  <odometryFrame>odom</odometryFrame>
+		  <robotBaseFrame>base</robotBaseFrame>
+		</plugin>
+	</gazebo>
+
 
 </robot>

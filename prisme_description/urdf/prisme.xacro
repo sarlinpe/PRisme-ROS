@@ -5,9 +5,9 @@
   <xacro:property name="PI" value="3.1415926535897931"/>
 
 	<!-- Fake values -->
-  <xacro:property name="mass_body" value="0.4" />
-	<xacro:property name="mass_wheel" value="0.1" />
-	<xacro:property name="mass_bpack" value="0.2" />
+  <xacro:property name="mass_body" value="0.300" />
+	<xacro:property name="mass_wheel" value="0.05" />
+	<xacro:property name="mass_bpack" value="0.4" />
 
 	<xacro:property name="width" value="0.0936" /> <!-- 2*46.8 = 93.6 mm -->
 	<xacro:property name="length" value="0.120" /> <!-- 120 mm -->
@@ -35,17 +35,16 @@
   <!-- Base Link -->
   <link name="base">
     <collision>
-      <origin xyz="0 0 ${wheel_rad - height_axis}" rpy="${PI/2} 0 ${PI/2}"/>
+      <origin xyz="0 0 0" rpy="${PI/2} 0 ${PI/2}"/>
       <geometry>
 				<mesh filename="package://prisme_description/meshes/simplified_body_v2.stl" scale="0.001 0.001 0.001"/>
-					<!--> <scale scale="1 .001 .001">1 0.001 0.001</scale> -->
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="0 0 0" rpy="${PI/2} 0 ${PI/2}"/>
+      <origin xyz="-${length/2} -${width/2+offset_side+wheel_thick/2+0.0025} -${0.020}" rpy="${PI/2} 0 ${PI/2}"/>
       <geometry>
-				<mesh filename="package://prisme_description/meshes/simplified_body_v2.stl" scale="0.001 0.001 0.001"/>
+				<mesh filename="package://prisme_description/meshes/body.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="orange"/>
     </visual>
@@ -55,9 +54,9 @@
       <mass value="${mass_body}"/>
 			<!-- Fake values -->
       <inertia 
-				ixx="1.0" ixy="0.0" ixz="0.0"
-	  		iyy="1.0" iyz="0.0"
-	  		izz="1.0"/>
+				ixx="0.001" ixy="0.0" ixz="0.0"
+	  		iyy="0.001" iyz="0.0"
+	  		izz="0.001"/>
     </inertial>
   </link>
 
@@ -72,10 +71,11 @@
 			</collision>
 
 			<visual>
-				<origin rpy="${reflect*PI/2} 0 0" />
+				<origin xyz="${wheel_rad} -${wheel_thick/2} -${wheel_rad}" rpy="0 0 ${PI/2}" />
 				<geometry>
-					<cylinder length="${wheel_thick}" radius="${wheel_rad}" />
+					<mesh filename="package://prisme_description/meshes/wheel.stl" scale="0.001 0.001 0.001"/>
 				</geometry>
+        <material name="blue"/>
 			</visual>
 
 		  <inertial>
@@ -83,9 +83,9 @@
 		    <mass value="${mass_wheel}"/>
 				<!-- Fake values -->
 		    <inertia 
-					ixx="0.1" ixy="0.0" ixz="0.0"
-					iyy="0.1" iyz="0.0"
-					izz="0.1"/>
+					ixx="0.001" ixy="0.0" ixz="0.0"
+					iyy="0.001" iyz="0.0"
+					izz="0.001"/>
 		  </inertial>
 		</link>
 
@@ -110,13 +110,6 @@
 				<cylinder length="${caster_rod_length}" radius="${caster_sphere_rad/3}"/>
 			</geometry>
 		</collision>
-
-		<visual>
-			<geometry>
-				<cylinder length="${caster_rod_length}" radius="${caster_sphere_rad/3}"/>
-			</geometry>
-      <material name="white"/>
-		</visual>
 	</link>
 
 	<!-- Caster rod Joint -->
@@ -133,13 +126,6 @@
 				<sphere radius="${caster_sphere_rad}"/>
 			</geometry>
 		</collision>
-
-		<visual>
-			<geometry>
-				<sphere radius="${caster_sphere_rad}"/>
-			</geometry>
-			<material name="white"/>
-		</visual>
 	</link>
 
 	<!-- Caster sphere Joint -->
@@ -156,13 +142,6 @@
 				<box size="${bpack_length} ${bpack_width} ${bpack_height}"/>
 			</geometry>
 		</collision>
-
-		<visual>
-			<geometry>
-				<box size="${bpack_length} ${bpack_width} ${bpack_height}"/>
-			</geometry>
-      <material name="red"/>
-		</visual>
 
 	  <inertial>
 	    <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -181,5 +160,30 @@
   	<child link="bpack"/>
   	<origin xyz="${-(length/2 - bpack_offset - bpack_length/2)} 0 ${bpack_height/2}" rpy="0 0 0"/>
 	</joint>
+
+	
+	<!-- IR Macro -->
+	<xacro:macro name="ir_front" params="position x y angle">
+		<link name="ir_front_${position}">
+			<!--
+			<visual>
+				<geometry>
+					<box size="0.007 0.010 0.005"/>
+				</geometry>
+				<material name="green"/>
+			</visual> -->
+		</link>
+
+		<joint name="joint_ir_front_${position}" type="fixed">
+			<parent link="base"/>
+			<child link="ir_front_${position}"/>
+			<origin xyz="${x} ${y} 0.018" rpy="0 0 ${angle}"/>
+		</joint>
+	</xacro:macro>
+
+	<xacro:ir_front position="left_center" x="0.05722" y="0.01804" angle="0.3054" /> <!-- 60cos(17.5)=57.22, 60sin(17.5)=18.04 -->
+	<xacro:ir_front position="right_center" x="0.05722" y="-0.01804" angle="-0.3054" />
+	<xacro:ir_front position="left" x="0.04424" y="0.04054" angle="0.7418" /> <!-- 60cos(42.5)=44.24, 60sin(42.5)=40.54 -->
+	<xacro:ir_front position="right" x="0.04424" y="-0.04054" angle="-0.7418" />
 
 </robot>
