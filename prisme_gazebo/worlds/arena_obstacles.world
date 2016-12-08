@@ -95,6 +95,7 @@
       </link>
 		</model>
 
+	<!--
 	<model name="cyl1">
 		<static>true</static>
 		<pose>0.5 0.5 0 0 0 0</pose>
@@ -162,9 +163,9 @@
         </geometry>
       </visual>
     </link>
-	</model>
+	</model> -->
 
-		<!-- For Gazebo >= 5...
+		<!-- For Gazebo >= 5... -->
 		<population name="cyl_pop">
 	 		<model name="cylinder">
 				<static>true</static>
@@ -181,7 +182,7 @@
 		        <geometry>
 		          <cylinder>
 		            <radius>0.04</radius>
-		            <length>0.1</length>
+		            <length>0.2</length>
 		          </cylinder>
 		        </geometry>
 		      </visual>
@@ -191,10 +192,10 @@
 			<box>
         <size>1.9 1.9 0.01</size>
       </box>
-      <model_count>5</model_count>
+      <model_count>15</model_count>
       <distribution>
         <type>random</type>
       </distribution>
-		</population> -->
+		</population>
   </world>
 </sdf>
