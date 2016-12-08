@@ -44,32 +44,32 @@ namespace gazebo
       ROS_FATAL_STREAM("A ROS node for Gazebo has not been initialized, unable to load plugin. "
         << "Load the Gazebo system plugin 'libgazebo_ros_api_plugin.so' in the gazebo_ros package)");
       return;
-    }
+		}
 
-    CameraPlugin::Load(_parent, _sdf);
-    // copying from CameraPlugin into GazeboRosCameraUtils
-    this->parentSensor_ = this->parentSensor;
-    this->width_ = this->width;
-    this->height_ = this->height;
-    this->depth_ = this->depth;
-    this->format_ = this->format;
-    this->camera_ = this->camera;
+		CameraPlugin::Load(_parent, _sdf);
+		// copying from CameraPlugin into GazeboRosCameraUtils
+		this->parentSensor_ = this->parentSensor;
+		this->width_ = this->width;
+		this->height_ = this->height;
+		this->depth_ = this->depth;
+		this->format_ = this->format;
+		this->camera_ = this->camera;
 
 		// only keep the useful lines of GazeboRosCameraUtils::Load
 		std::string world_name = _parent->GetWorldName();
 		this->world_ = physics::get_world(world_name);
 
 		// extract values from sdf
-   	if (!_sdf->HasElement("updateRate"))
-   	{
-     	ROS_DEBUG("Camera plugin missing <updateRate>, defaults to unlimited (0).");
-     	this->update_rate_ = 0;
+		if (!_sdf->HasElement("updateRate"))
+		{
+		 	ROS_DEBUG("Camera plugin missing <updateRate>, defaults to unlimited (0).");
+		 	this->update_rate_ = 0;
 			this->update_period_ = 0.0;
 			this->parentSensor_->SetUpdateRate(0);
-	 	}
-   	else
+		}
+		else
 		{
-     	this->update_rate_ = _sdf->Get<double>("updateRate");
+		 	this->update_rate_ = _sdf->Get<double>("updateRate");
 			this->update_period_ = 1.0/this->update_rate_;
 			this->parentSensor_->SetUpdateRate(this->update_rate_);
 		}
@@ -83,7 +83,7 @@ namespace gazebo
 
 		if (_sdf->HasElement("illuminanceTopicName"))
 			this->_illuminanceTopic = _sdf->Get<std::string>("illuminanceTopicName");
-    _sensorPublisher = this->_nh->advertise<sensor_msgs::Illuminance>(this->_illuminanceTopic, 1);
+		_sensorPublisher = this->_nh->advertise<sensor_msgs::Illuminance>(this->_illuminanceTopic, 1);
 
 		if (_sdf->HasElement("frameName"))
 			this->_frameName = _sdf->Get<std::string>("frameName");
