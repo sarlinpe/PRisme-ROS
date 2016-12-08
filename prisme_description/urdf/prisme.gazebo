@@ -88,7 +88,9 @@
 	<!-- Motors driver -->
 	<gazebo>
 		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+			<legacyMode>true</legacyMode>
 		  <alwaysOn>true</alwaysOn>
+			<rosDebugLevel>na</rosDebugLevel>
 		  <updateRate>${update_rate}</updateRate>
 		  <leftJoint>joint_left</leftJoint>
 		  <rightJoint>joint_right</rightJoint>
