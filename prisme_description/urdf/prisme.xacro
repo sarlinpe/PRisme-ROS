@@ -2,8 +2,6 @@
 
 <robot name="prisme" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:property name="PI" value="3.1415926535897931"/>
-
 	<!-- Fake values -->
   <xacro:property name="mass_body" value="0.300" />
 	<xacro:property name="mass_wheel" value="0.05" />
@@ -27,6 +25,10 @@
 	<xacro:property name="bpack_offset" value="0.010" /> <!-- 10 mm -->
 	<xacro:property name="bpack_height" value="0.058" /> <!-- 58 mm -->
 
+	<xacro:property name="ir_front_rad" value="0.06" />
+	<xacro:property name="ir_angle1" value="${radians(17.5)}" />
+	<xacro:property name="ir_angle2" value="${radians(42.5)}" />
+
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
   <xacro:include filename="$(find prisme_description)/urdf/prisme.gazebo" />
   <!-- Import Rviz colors -->
@@ -35,14 +37,14 @@
   <!-- Base Link -->
   <link name="base">
     <collision>
-      <origin xyz="0 0 0" rpy="${PI/2} 0 ${PI/2}"/>
+      <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
       <geometry>
 				<mesh filename="package://prisme_description/meshes/simplified_body_v2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
 
     <visual>
-      <origin xyz="-${length/2} -${width/2+offset_side+wheel_thick/2+0.0025} -${0.020}" rpy="${PI/2} 0 ${PI/2}"/>
+      <origin xyz="-${length/2} -${width/2+offset_side+wheel_thick/2+0.0025} -${0.020}" rpy="${pi/2} 0 ${pi/2}"/>
       <geometry>
 				<mesh filename="package://prisme_description/meshes/body.stl" scale="0.001 0.001 0.001"/>
       </geometry>
@@ -64,14 +66,14 @@
 	<xacro:macro name="wheel" params="side reflect">
 		<link name="wheel_${side}">
 			<collision>
-				<origin rpy="${reflect*PI/2} 0 0" />
+				<origin rpy="${reflect*pi/2} 0 0" />
 				<geometry>
 					<cylinder length="${wheel_thick}" radius="${wheel_rad}" />
 				</geometry>
 			</collision>
 
 			<visual>
-				<origin xyz="${wheel_rad} -${wheel_thick/2} -${wheel_rad}" rpy="0 0 ${PI/2}" />
+				<origin xyz="${wheel_rad} -${wheel_thick/2} -${wheel_rad}" rpy="0 0 ${pi/2}" />
 				<geometry>
 					<mesh filename="package://prisme_description/meshes/wheel.stl" scale="0.001 0.001 0.001"/>
 				</geometry>
@@ -163,7 +165,7 @@
 
 	
 	<!-- IR Macro -->
-	<xacro:macro name="ir_front" params="position x y angle">
+	<xacro:macro name="ir_front" params="position angle">
 		<link name="ir_front_${position}">
 			<!--
 			<visual>
@@ -177,13 +179,13 @@
 		<joint name="joint_ir_front_${position}" type="fixed">
 			<parent link="base"/>
 			<child link="ir_front_${position}"/>
-			<origin xyz="${x} ${y} 0.018" rpy="0 0 ${angle}"/>
+			<origin xyz="${ir_front_rad*cos(angle)} ${ir_front_rad*sin(angle)} 0.018" rpy="0 0 ${angle}"/>
 		</joint>
 	</xacro:macro>
 
-	<xacro:ir_front position="left_center" x="0.05722" y="0.01804" angle="0.3054" /> <!-- 60cos(17.5)=57.22, 60sin(17.5)=18.04 -->
-	<xacro:ir_front position="right_center" x="0.05722" y="-0.01804" angle="-0.3054" />
-	<xacro:ir_front position="left" x="0.04424" y="0.04054" angle="0.7418" /> <!-- 60cos(42.5)=44.24, 60sin(42.5)=40.54 -->
-	<xacro:ir_front position="right" x="0.04424" y="-0.04054" angle="-0.7418" />
+	<xacro:ir_front position="left_center" angle="${ir_angle1}" /> <!-- 60cos(17.5)=57.22, 60sin(17.5)=18.04 -->
+	<xacro:ir_front position="right_center" angle="${-ir_angle1}" />
+	<xacro:ir_front position="left" angle="${ir_angle2}" /> <!-- 60cos(42.5)=44.24, 60sin(42.5)=40.54 -->
+	<xacro:ir_front position="right" angle="${-ir_angle2}" />
 
 </robot>
