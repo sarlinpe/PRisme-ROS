@@ -29,6 +29,9 @@
 	<xacro:property name="ir_angle1" value="${radians(17.5)}" />
 	<xacro:property name="ir_angle2" value="${radians(42.5)}" />
 
+	<xacro:property name="ir_under_x" value="0.030" />
+	<xacro:property name="ir_under_y" value="0.008" />
+
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
   <xacro:include filename="$(find prisme_description)/urdf/prisme.gazebo" />
   <!-- Import Rviz colors -->
@@ -56,9 +59,9 @@
       <mass value="${mass_body}"/>
 			<!-- Fake values -->
       <inertia 
-				ixx="0.001" ixy="0.0" ixz="0.0"
-	  		iyy="0.001" iyz="0.0"
-	  		izz="0.001"/>
+				ixx="${1e-3}" ixy="0.0" ixz="0.0"
+	  		iyy="${1e-3}" iyz="0.0"
+	  		izz="${1e-3}"/>
     </inertial>
   </link>
 
@@ -85,9 +88,9 @@
 		    <mass value="${mass_wheel}"/>
 				<!-- Fake values -->
 		    <inertia 
-					ixx="0.001" ixy="0.0" ixz="0.0"
-					iyy="0.001" iyz="0.0"
-					izz="0.001"/>
+					ixx="${1e-4}" ixy="0.0" ixz="0.0"
+					iyy="${1e-4}" iyz="0.0"
+					izz="${1e-4}"/>
 		  </inertial>
 		</link>
 
@@ -96,7 +99,7 @@
     	<child link="wheel_${side}"/>
     	<origin xyz="0 ${reflect*(width/2+offset_side+wheel_thick/2)} ${height_axis}" rpy="0 0 0"/>
     	<axis xyz="0 1 0"/>
-    	<dynamics damping="0.7"/>
+    	<dynamics damping="1"/>
   	</joint>
 
 	</xacro:macro>
@@ -150,9 +153,9 @@
 	    <mass value="${mass_bpack}"/>
 			<!-- Fake values -->
 	    <inertia 
-				ixx="0.1" ixy="0.0" ixz="0.0"
-				iyy="0.1" iyz="0.0"
-				izz="0.1"/>
+				ixx="${1e-3}" ixy="0.0" ixz="0.0"
+				iyy="${1e-3}" iyz="0.0"
+				izz="${1e-3}"/>
 	  </inertial>
 	</link>
 
@@ -164,16 +167,15 @@
 	</joint>
 
 	
-	<!-- IR Macro -->
+	<!-- IR front Macro -->
 	<xacro:macro name="ir_front" params="position angle">
 		<link name="ir_front_${position}">
-			<!--
-			<visual>
+			<!--visual>
 				<geometry>
 					<box size="0.007 0.010 0.005"/>
 				</geometry>
 				<material name="green"/>
-			</visual> -->
+			</visual-->
 		</link>
 
 		<joint name="joint_ir_front_${position}" type="fixed">
@@ -183,9 +185,30 @@
 		</joint>
 	</xacro:macro>
 
-	<xacro:ir_front position="left_center" angle="${ir_angle1}" /> <!-- 60cos(17.5)=57.22, 60sin(17.5)=18.04 -->
+	<xacro:ir_front position="left_center" angle="${ir_angle1}" />
 	<xacro:ir_front position="right_center" angle="${-ir_angle1}" />
-	<xacro:ir_front position="left" angle="${ir_angle2}" /> <!-- 60cos(42.5)=44.24, 60sin(42.5)=40.54 -->
+	<xacro:ir_front position="left" angle="${ir_angle2}" />
 	<xacro:ir_front position="right" angle="${-ir_angle2}" />
+
+	<!-- IR under Macro -->
+	<xacro:macro name="ir_under" params="position reflect">
+		<link name="ir_under_${position}">
+			<visual>
+				<geometry>
+					<box size="0.005 0.010 0.007"/>
+				</geometry>
+				<material name="green"/>
+			</visual>
+		</link>
+
+		<joint name="joint_ir_under_${position}" type="fixed">
+			<parent link="base"/>
+			<child link="ir_under_${position}"/>
+			<origin xyz="${ir_under_x} ${ir_under_y*reflect} 0" rpy="0 ${pi/2} 0"/>
+		</joint>
+	</xacro:macro>
+
+	<xacro:ir_under position="left" reflect="1" />
+	<xacro:ir_under position="right" reflect="-1" />
 
 </robot>
