@@ -1,0 +1,200 @@
+<?xml version="1.0" ?>
+<sdf version="1.4">
+  <world name="default">
+
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+		<model name="wall1">
+			<static>true</static>
+      <pose>0 -1 0.05 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>2 0.01 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>2 0.01 0.1</size>
+            </box>
+          </geometry>
+        </visual>
+      </link>
+		</model>
+	
+		<model name="wall2">
+			<static>true</static>
+      <pose>0 1 0.05 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>2 0.01 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>2 0.01 0.1</size>
+            </box>
+          </geometry>
+        </visual>
+      </link>
+		</model>
+
+		<model name="wall3">
+			<static>true</static>
+      <pose>-1 0 0.05 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.01 2 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.01 2 0.1</size>
+            </box>
+          </geometry>
+        </visual>
+      </link>
+		</model>
+
+		<model name="wall4">
+			<static>true</static>
+      <pose>1 0 0.05 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.01 2 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.01 2 0.1</size>
+            </box>
+          </geometry>
+        </visual>
+      </link>
+		</model>
+
+	<model name="cyl1">
+		<static>true</static>
+		<pose>0.5 0.5 0 0 0 0</pose>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.04</radius>
+            <length>0.2</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.04</radius>
+            <length>0.2</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+	</model>
+
+	<model name="cyl1">
+		<static>true</static>
+		<pose>-0.5 0.5 0 0 0 0</pose>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.04</radius>
+            <length>0.2</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.04</radius>
+            <length>0.2</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+	</model>
+
+	<model name="cyl1">
+		<static>true</static>
+		<pose>0.5 -0.5 0 0 0 0</pose>
+    <link name="link">
+      <collision name="collision">
+        <geometry>
+          <cylinder>
+            <radius>0.04</radius>
+            <length>0.2</length>
+          </cylinder>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <cylinder>
+            <radius>0.04</radius>
+            <length>0.2</length>
+          </cylinder>
+        </geometry>
+      </visual>
+    </link>
+	</model>
+
+		<!-- For Gazebo >= 5...
+		<population name="cyl_pop">
+	 		<model name="cylinder">
+				<static>true</static>
+		    <link name="link">
+		      <collision name="collision">
+		        <geometry>
+		          <cylinder>
+		            <radius>0.04</radius>
+		            <length>0.1</length>
+		          </cylinder>
+		        </geometry>
+		      </collision>
+		      <visual name="visual">
+		        <geometry>
+		          <cylinder>
+		            <radius>0.04</radius>
+		            <length>0.1</length>
+		          </cylinder>
+		        </geometry>
+		      </visual>
+		    </link>
+			</model>
+	    <pose>0 0 0 0 0 0</pose>
+			<box>
+        <size>1.9 1.9 0.01</size>
+      </box>
+      <model_count>5</model_count>
+      <distribution>
+        <type>random</type>
+      </distribution>
+		</population> -->
+  </world>
+</sdf>

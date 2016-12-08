@@ -1,11 +1,14 @@
 <?xml version="1.0"?>
-<robot name="prisme" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="prisme" 
+	xmlns:xacro="http://www.ros.org/wiki/xacro" 
+	xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+	xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" >
 
 	<xacro:property name="update_rate" value="30" />
 
 	<xacro:property name="ir_fov" value="0.2" />
-	<xacro:property name="ir_min_range" value="0.005" />
-	<xacro:property name="ir_max_range" value="0.10" />
+	<xacro:property name="ir_min_range" value="0.0" />
+	<xacro:property name="ir_max_range" value="0.2" />
 	<xacro:property name="ir_res" value="0.005" />
 
   <!-- Base -->
@@ -76,11 +79,13 @@
 		</gazebo>
 	</xacro:macro>
 
+	<!-- IR sensors (front) -->
 	<xacro:ir_front_gz position="left_center" angle="0." />
 	<xacro:ir_front_gz position="right_center" angle="-0.3054" />
 	<xacro:ir_front_gz position="left" angle="0.7418" />
 	<xacro:ir_front_gz position="right" angle="-0.7418" />
 
+	<!-- Motors driver -->
 	<gazebo>
 		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
 		  <alwaysOn>true</alwaysOn>
@@ -96,6 +101,5 @@
 		  <robotBaseFrame>base</robotBaseFrame>
 		</plugin>
 	</gazebo>
-
 
 </robot>

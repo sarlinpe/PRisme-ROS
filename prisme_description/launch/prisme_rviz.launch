@@ -1,4 +1,9 @@
 <launch>
+
+	<!-- Use time published by Gazebo -->
+	<!-- param name="use_sim_time" value="true" /-->
+
+	<!-- Generate URDF file -->
   <param name="robot_description"
     command="$(find xacro)/xacro.py '$(find prisme_description)/urdf/prisme.xacro'" />
 
