@@ -1,11 +1,8 @@
 <launch>
 
-	<!-- Use time published by Gazebo -->
-	<!-- param name="use_sim_time" value="true" /-->
-
 	<!-- Generate URDF file -->
-  <param name="robot_description"
-    command="$(find xacro)/xacro.py '$(find prisme_description)/urdf/prisme.xacro'" />
+	<param name="robot_description"
+		command="$(find xacro)/xacro '--inorder' '$(find prisme_description)/urdf/prisme.xacro'" />
 
   <!-- Send fake joint values -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
