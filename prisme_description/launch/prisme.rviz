@@ -26,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Illuminance_ir_left
 Visualization Manager:
   Class: ""
   Displays:
@@ -94,6 +94,16 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        ir_under_left:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        ir_under_right:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
         wheel_left:
           Alpha: 1
           Show Axes: false
@@ -150,6 +160,66 @@ Visualization Manager:
       Topic: /prisme/ir_front_right_center
       Unreliable: false
       Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: false
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: illuminance
+      Class: rviz/Illuminance
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 1000
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: Illuminance_ir_left
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /prisme/ir_under_left
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Autocompute Intensity Bounds: false
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: illuminance
+      Class: rviz/Illuminance
+      Color: 255; 255; 255
+      Color Transformer: Intensity
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 1000
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: Illuminance_ir_right
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /prisme/ir_under_right
+      Unreliable: false
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -174,22 +244,22 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 0.432601
+      Distance: 0.0893268
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.06
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0
-        Y: 0
-        Z: 0
+        X: 0.00413131
+        Y: -0.00361294
+        Z: -0.00118033
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.715398
+      Pitch: -0.769602
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 0.393569
+      Yaw: 0.0285691
     Saved: ~
 Window Geometry:
   Displays:
@@ -208,4 +278,4 @@ Window Geometry:
     collapsed: false
   Width: 1200
   X: 71
-  Y: 30
+  Y: 20
