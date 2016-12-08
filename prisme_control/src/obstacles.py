@@ -18,7 +18,7 @@ __email__ = "karl.kangur@gmail.com"
 def process_ir_front(ir_left, ir_left_center, ir_right_center, ir_right):
     """Do obstacle avoidance."""
     # Define the distance to obstacle constant
-    distance_obstacle = 0.15
+    distance_obstacle = 0.10
     # Define the speed constants
     speed_fast = 0.1
     speed_slow = 0.01
