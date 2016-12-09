@@ -18,7 +18,6 @@ def process_ir_under(ir_left, ir_right):
 
     base_lin_speed = 0.12
     base_ang_speed = 0.4
-
     k_linear = 0.01
     k_angular = 0.015
 
