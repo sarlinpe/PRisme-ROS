@@ -211,4 +211,21 @@
 	<xacro:ir_under position="left" reflect="1" />
 	<xacro:ir_under position="right" reflect="-1" />
 
+	<!-- Linear Camera Link -->
+	<link name="lc">
+		<visual>
+			<geometry>
+				<box size="0.01 0.017 0.017"/>
+			</geometry>
+			<material name="green"/>
+		</visual>
+	</link>
+
+	<!-- Linear Camera Joint -->
+	<joint name="joint_lc" type="fixed">
+  	<parent link="base"/>
+  	<child link="lc"/>
+  	<origin xyz="0.04 -0.008 0.065" rpy="0 0 0"/>
+	</joint>
+
 </robot>

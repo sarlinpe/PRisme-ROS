@@ -107,7 +107,7 @@
 					<alwaysOn>true</alwaysOn>
 					<updateRate>20</updateRate>
 					<frameName>ir_under_${position}</frameName>
-					<baseline>0.1</baseline>
+					<baseline>0</baseline>
 				</plugin>
 			</sensor>
 		</gazebo>
@@ -116,6 +116,46 @@
 	<!-- IR under sensors -->
 	<xacro:ir_under_gz position="left" />
 	<xacro:ir_under_gz position="right" />
+
+  <gazebo reference="lc">
+		<material>
+		  <script>Gazebo/Green
+		  	<!--uri>file://media/materials/scripts/gazebo.material</uri>
+		  	<name>Gazebo/Green</name-->
+		  </script>
+		</material>
+		<sensor type="camera" name="lc">
+      <!--update_rate>10</update_rate-->
+			<visualize>true</visualize>
+      <camera name="head">
+				<horizontal_fov>1.4</horizontal_fov>
+        <image>
+          <width>103</width>
+          <height>1</height>
+          <format>L8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>10</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.1</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+				<robotNamespace>/prisme</robotNamespace>
+        <cameraName>linear_camera</cameraName>
+        <imageTopicName>image</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>lc</frameName>
+        <alwaysOn>true</alwaysOn>
+        <updateRate>2</updateRate>
+        <hackBaseline>0</hackBaseline>
+      </plugin>
+    </sensor>
+  </gazebo>
 
 	<!-- Motors driver -->
 	<gazebo>
