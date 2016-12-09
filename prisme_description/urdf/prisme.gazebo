@@ -4,23 +4,15 @@
 	xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
 	xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" >
 
-	<xacro:property name="update_rate" value="30" />
+	<xacro:property name="rate_control" value="30" />
+	<xacro:property name="rate_ir" value="20" />
+	<xacro:property name="rate_lc" value="2" />
+	<xacro:property name="rate_imu" value="5" />
 
 	<xacro:property name="ir_fov" value="0.2" />
 	<xacro:property name="ir_min_range" value="0.0" />
 	<xacro:property name="ir_max_range" value="0.2" />
 	<xacro:property name="ir_res" value="0.005" />
-
-	<!--gazebo>
-    <plugin name="imu_plugin" filename="libgazebo_ros_imu.so">
-      <alwaysOn>true</alwaysOn>
-      <bodyName>base</bodyName>
-      <topicName>imu</topicName>
-      <serviceName>imu_service</serviceName>
-      <gaussianNoise>0.0</gaussianNoise>
-      <updateRate>3</updateRate>
-    </plugin>
-	</gazebo-->
 
   <!-- Base -->
   <gazebo reference="base">
@@ -28,7 +20,7 @@
 
 		<sensor name="imu" type="imu">
       <always_on>true</always_on>
-    	<update_rate>2</update_rate>
+    	<update_rate>${rate_imu}</update_rate>
       <pose>0 0 0 0 0 0 </pose>
 			<!-- For SDF 1.4 (Gazebo <= 5) -->
 			<imu>
@@ -107,7 +99,7 @@
 					<robotNamespace>/prisme</robotNamespace>
 					<topicName>imu</topicName>
 					<bodyName>base</bodyName> <!-- equivalent to frameName -->
-					<updateRateHZ>2.0</updateRateHZ>
+					<updateRateHZ>${rate_imu}</updateRateHZ>
 					<gaussianNoise>0.0</gaussianNoise>
 					<xyzOffset>0 0 0</xyzOffset>
 					<rpyOffset>0 0 0</rpyOffset>
@@ -147,7 +139,7 @@
 			<material>Gazebo/Green</material>
 			<sensor type="ray" name="sensor_ir_front_${position}">
 			  <visualize>true</visualize>
-			  <update_rate>${update_rate}</update_rate>
+			  <update_rate>${rate_ir}</update_rate>
 			  <ray>
 			    <scan>
 			      <horizontal>
@@ -166,7 +158,7 @@
 			  <plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
 					<gaussianNoise>0.005</gaussianNoise>
 			    <alwaysOn>true</alwaysOn>
-					<updateRate>${update_rate}</updateRate>
+					<updateRate>${rate_ir}</updateRate>
 					<radiation>infrared</radiation>
 					<fov>${ir_fov}</fov>
 			    <topicName>/prisme/ir_front_${position}</topicName>
@@ -204,7 +196,7 @@
 					<robotNamespace>/prisme</robotNamespace>
 					<illuminanceTopicName>ir_under_${position}</illuminanceTopicName>
 					<alwaysOn>true</alwaysOn>
-					<updateRate>20</updateRate>
+					<updateRate>${rate_ir}</updateRate>
 					<frameName>ir_under_${position}</frameName>
 					<baseline>0</baseline>
 				</plugin>
@@ -249,7 +241,7 @@
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>lc</frameName>
         <alwaysOn>true</alwaysOn>
-        <updateRate>2</updateRate>
+        <updateRate>${rate_lc}</updateRate>
         <hackBaseline>0</hackBaseline>
       </plugin>
     </sensor>
@@ -261,7 +253,7 @@
 			<legacyMode>true</legacyMode>
 		  <alwaysOn>true</alwaysOn>
 			<rosDebugLevel>na</rosDebugLevel>
-		  <updateRate>${update_rate}</updateRate>
+		  <updateRate>${rate_control}</updateRate>
 		  <leftJoint>joint_left</leftJoint>
 		  <rightJoint>joint_right</rightJoint>
 		  <wheelSeparation>${width+2*offset_side+wheel_thick}</wheelSeparation>
