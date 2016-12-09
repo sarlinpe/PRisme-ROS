@@ -78,7 +78,7 @@ def stop_robot():
 def initialize():
     """Initialize the sample node."""
     global pub
-    emitter = "/prisme/"
+    namespace = "/prisme/"
 
     # Provide a name for the node
     rospy.init_node("explore", anonymous=True)
@@ -87,12 +87,12 @@ def initialize():
     rospy.loginfo("Exploration node initialization")
 
     # Subscribe to and synchronise the infra-red sensors in front of the robot
-    ir_front_left = message_filters.Subscriber(emitter+"ir_front_left", Range)
-    ir_front_right = message_filters.Subscriber(emitter+"ir_front_right", Range)
+    ir_front_left = message_filters.Subscriber(namespace+"ir_front_left", Range)
+    ir_front_right = message_filters.Subscriber(namespace+"ir_front_right", Range)
     ir_front_left_center = message_filters.Subscriber(
-        emitter+"ir_front_left_center", Range)
+        namespace+"ir_front_left_center", Range)
     ir_front_right_center = message_filters.Subscriber(
-        emitter+"ir_front_right_center", Range)
+        namespace+"ir_front_right_center", Range)
     # Wait for all topics to arrive before calling the callback
     ts_ir_front = message_filters.TimeSynchronizer([
         ir_front_left,
