@@ -30,7 +30,7 @@
 	<xacro:property name="ir_angle2" value="${radians(42.5)}" />
 
 	<xacro:property name="ir_under_x" value="0.030" />
-	<xacro:property name="ir_under_y" value="0.008" />
+	<xacro:property name="ir_under_y" value="0.012" />
 
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
   <xacro:include filename="$(find prisme_description)/urdf/prisme.gazebo" />

@@ -4,10 +4,12 @@
 	xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
 	xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" >
 
+	<!-- Setting the value to zero would result in high unkown rates... -->
 	<xacro:property name="rate_control" value="30" />
-	<xacro:property name="rate_ir" value="20" />
-	<xacro:property name="rate_lc" value="2" />
-	<xacro:property name="rate_imu" value="5" />
+	<xacro:property name="rate_ir_front" value="20" />
+	<xacro:property name="rate_ir_under" value="20" />
+	<xacro:property name="rate_lc" value="1" />
+	<xacro:property name="rate_imu" value="1" />
 
 	<xacro:property name="ir_fov" value="0.2" />
 	<xacro:property name="ir_min_range" value="0.0" />
@@ -22,7 +24,6 @@
       <always_on>true</always_on>
     	<update_rate>${rate_imu}</update_rate>
       <pose>0 0 0 0 0 0 </pose>
-			<!-- For SDF 1.4 (Gazebo <= 5) -->
 			<imu>
 				<noise>
 					<type>gaussian</type>
@@ -40,65 +41,10 @@
 					</accel>
 				</noise>
 			</imu>
-			<!-- For SDF >=1.6 (Gazebo >= 6) -->
-      <!--imu>
-        <angular_velocity>
-          <x>
-            <noise type="gaussian">
-              <mean>0.0</mean>
-              <stddev>2e-4</stddev>
-              <bias_mean>0.0000075</bias_mean>
-              <bias_stddev>0.0000008</bias_stddev>
-            </noise>
-          </x>
-          <y>
-            <noise type="gaussian">
-              <mean>0.0</mean>
-              <stddev>2e-4</stddev>
-              <bias_mean>0.0000075</bias_mean>
-              <bias_stddev>0.0000008</bias_stddev>
-            </noise>
-          </y>
-          <z>
-            <noise type="gaussian">
-              <mean>0.0</mean>
-              <stddev>2e-4</stddev>
-              <bias_mean>0.0000075</bias_mean>
-              <bias_stddev>0.0000008</bias_stddev>
-            </noise>
-          </z>
-        </angular_velocity>
-        <linear_acceleration>
-          <x>
-            <noise type="gaussian">
-              <mean>0.0</mean>
-              <stddev>1.7e-2</stddev>
-              <bias_mean>0.1</bias_mean>
-              <bias_stddev>0.001</bias_stddev>
-            </noise>
-          </x>
-          <y>
-            <noise type="gaussian">
-              <mean>0.0</mean>
-              <stddev>1.7e-2</stddev>
-              <bias_mean>0.1</bias_mean>
-              <bias_stddev>0.001</bias_stddev>
-            </noise>
-          </y>
-          <z>
-            <noise type="gaussian">
-              <mean>0.0</mean>
-              <stddev>1.7e-2</stddev>
-              <bias_mean>0.1</bias_mean>
-              <bias_stddev>0.001</bias_stddev>
-            </noise>
-          </z>
-        </linear_acceleration>
-      </imu-->
 			<plugin name='imu_gazebo' filename='libimu_gazebo.so'>
 					<robotNamespace>/prisme</robotNamespace>
 					<topicName>imu</topicName>
-					<bodyName>base</bodyName> <!-- equivalent to frameName -->
+					<bodyName>base</bodyName>
 					<updateRateHZ>${rate_imu}</updateRateHZ>
 					<gaussianNoise>0.0</gaussianNoise>
 					<xyzOffset>0 0 0</xyzOffset>
@@ -139,7 +85,7 @@
 			<material>Gazebo/Green</material>
 			<sensor type="ray" name="sensor_ir_front_${position}">
 			  <visualize>true</visualize>
-			  <update_rate>${rate_ir}</update_rate>
+			  <update_rate>${rate_ir_front}</update_rate>
 			  <ray>
 			    <scan>
 			      <horizontal>
@@ -158,7 +104,7 @@
 			  <plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
 					<gaussianNoise>0.005</gaussianNoise>
 			    <alwaysOn>true</alwaysOn>
-					<updateRate>${rate_ir}</updateRate>
+					<updateRate>${rate_ir_front}</updateRate>
 					<radiation>infrared</radiation>
 					<fov>${ir_fov}</fov>
 			    <topicName>/prisme/ir_front_${position}</topicName>
@@ -178,25 +124,29 @@
 	<xacro:macro name="ir_under_gz" params="position">
 		<gazebo reference="ir_under_${position}">
 			<material>Gazebo/Yellow</material>
-			<sensor type="camera" name="light_sensor_1">
+			<sensor type="camera" name="light_sensor_${position}">
 				<visualize>true</visualize>
 				<camera name='test'>
-		      <horizontal_fov>1.4</horizontal_fov>
-					<!--horizontal_fov>1.4</horizontal_fov-->
+		      <horizontal_fov>1.2</horizontal_fov>
 					<image>
-					 	<width>5</width>
-					 	<height>5</height>
+					 	<width>2</width>
+					 	<height>2</height>
 					</image>
 		      <clip>
-		        <near>0.001</near>
+		        <near>0.0001</near>
 		        <far>10</far>
 		      </clip>
+					<noise>
+		        <type>gaussian</type>
+		        <mean>0.0</mean>
+		        <stddev>0.05</stddev>
+        	</noise>
 				</camera>
 				<plugin name="light_sensor_gazebo" filename="liblight_sensor_gazebo.so">
 					<robotNamespace>/prisme</robotNamespace>
 					<illuminanceTopicName>ir_under_${position}</illuminanceTopicName>
 					<alwaysOn>true</alwaysOn>
-					<updateRate>${rate_ir}</updateRate>
+					<updateRate>${rate_ir_under}</updateRate>
 					<frameName>ir_under_${position}</frameName>
 					<baseline>0</baseline>
 				</plugin>
@@ -208,6 +158,7 @@
 	<xacro:ir_under_gz position="left" />
 	<xacro:ir_under_gz position="right" />
 
+	<!-- Linear Camera -->
   <gazebo reference="lc">
 		<material>
 		  <script>
@@ -216,6 +167,7 @@
 		  </script>
 		</material>
 		<sensor type="camera" name="lc">
+			<update_rate>${rate_lc}</update_rate>
 			<visualize>true</visualize>
       <camera name="head">
 				<horizontal_fov>1.4</horizontal_fov>
