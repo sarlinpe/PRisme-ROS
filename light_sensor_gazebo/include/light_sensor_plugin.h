@@ -28,11 +28,11 @@ namespace gazebo
     unsigned int _width, unsigned int _height,
     unsigned int _depth, const std::string &_format);
 
-		std::string _illuminanceTopic, _robotNamespace;
+    std::string _illuminanceTopic, _robotNamespace;
 
     ros::NodeHandle* _nh;
     ros::Publisher _sensorPublisher;
-		std::string _frameName;
+    std::string _frameName;
   };
 }
 

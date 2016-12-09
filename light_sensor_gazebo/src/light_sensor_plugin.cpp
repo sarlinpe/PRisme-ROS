@@ -20,18 +20,18 @@ namespace gazebo
   ////////////////////////////////////////////////////////////////////////////////
   // Constructor
   GazeboRosLight::GazeboRosLight():
-	_robotNamespace("/"),
-	_illuminanceTopic("light_sensor"),
-	_frameName("")
+  _robotNamespace("/"),
+  _illuminanceTopic("light_sensor"),
+  _frameName("")
   {}
 
   ////////////////////////////////////////////////////////////////////////////////
   // Destructor
   GazeboRosLight::~GazeboRosLight()
   {
-		this->parentSensor_->SetActive(false);
-		this->_nh->shutdown();
-		delete this->_nh;
+    this->parentSensor_->SetActive(false);
+    this->_nh->shutdown();
+    delete this->_nh;
     ROS_DEBUG_STREAM_NAMED("camera","Unloaded");
   }
 
@@ -43,48 +43,48 @@ namespace gazebo
       ROS_FATAL_STREAM("A ROS node for Gazebo has not been initialized, unable to load plugin. "
         << "Load the Gazebo system plugin 'libgazebo_ros_api_plugin.so' in the gazebo_ros package)");
       return;
-		}
+    }
 
-		CameraPlugin::Load(_parent, _sdf);
-		// copying from CameraPlugin into GazeboRosCameraUtils
-		this->parentSensor_ = this->parentSensor;
-		this->width_ = this->width;
-		this->height_ = this->height;
-		this->depth_ = this->depth;
-		this->format_ = this->format;
-		this->camera_ = this->camera;
+    CameraPlugin::Load(_parent, _sdf);
+    // copying from CameraPlugin into GazeboRosCameraUtils
+    this->parentSensor_ = this->parentSensor;
+    this->width_ = this->width;
+    this->height_ = this->height;
+    this->depth_ = this->depth;
+    this->format_ = this->format;
+    this->camera_ = this->camera;
 
-		// only keep the useful lines of GazeboRosCameraUtils::Load
-		std::string world_name = _parent->GetWorldName();
-		this->world_ = physics::get_world(world_name);
+    // only keep the useful lines of GazeboRosCameraUtils::Load
+    std::string world_name = _parent->GetWorldName();
+    this->world_ = physics::get_world(world_name);
 
-		// extract values from sdf
-		if (!_sdf->HasElement("updateRate"))
-		{
-		 	ROS_DEBUG("Camera plugin missing <updateRate>, defaults to unlimited (0).");
-		 	this->update_rate_ = 0;
-			this->update_period_ = 0.0;
-			this->parentSensor_->SetUpdateRate(0);
-		}
-		else
-		{
-		 	this->update_rate_ = _sdf->Get<double>("updateRate");
-			this->update_period_ = 1.0/this->update_rate_;
-			this->parentSensor_->SetUpdateRate(this->update_rate_);
-		}
+    // extract values from sdf
+    if (!_sdf->HasElement("updateRate"))
+    {
+      ROS_DEBUG("Camera plugin missing <updateRate>, defaults to unlimited (0).");
+      this->update_rate_ = 0;
+      this->update_period_ = 0.0;
+      this->parentSensor_->SetUpdateRate(0);
+    }
+    else
+    {
+       this->update_rate_ = _sdf->Get<double>("updateRate");
+      this->update_period_ = 1.0/this->update_rate_;
+      this->parentSensor_->SetUpdateRate(this->update_rate_);
+    }
 
-		if (_sdf->HasElement("robotNamespace"))
-			this->_robotNamespace = _sdf->Get<std::string>("robotNamespace");
-		this->_nh = new ros::NodeHandle(this->_robotNamespace);
+    if (_sdf->HasElement("robotNamespace"))
+      this->_robotNamespace = _sdf->Get<std::string>("robotNamespace");
+    this->_nh = new ros::NodeHandle(this->_robotNamespace);
 
-		if (_sdf->HasElement("illuminanceTopicName"))
-			this->_illuminanceTopic = _sdf->Get<std::string>("illuminanceTopicName");
-		_sensorPublisher = this->_nh->advertise<sensor_msgs::Illuminance>(this->_illuminanceTopic, 1);
+    if (_sdf->HasElement("illuminanceTopicName"))
+      this->_illuminanceTopic = _sdf->Get<std::string>("illuminanceTopicName");
+    _sensorPublisher = this->_nh->advertise<sensor_msgs::Illuminance>(this->_illuminanceTopic, 1);
 
-		if (_sdf->HasElement("frameName"))
-			this->_frameName = _sdf->Get<std::string>("frameName");
+    if (_sdf->HasElement("frameName"))
+      this->_frameName = _sdf->Get<std::string>("frameName");
 
-		this->parentSensor->SetActive(true);
+    this->parentSensor->SetActive(true);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ namespace gazebo
     static int seq=0;
     this->sensor_update_time_ = this->parentSensor_->GetLastUpdateTime();
 
-		common::Time cur_time = this->world_->GetSimTime();
+    common::Time cur_time = this->world_->GetSimTime();
     if (cur_time - this->last_update_time_ >= this->update_period_)
     {
       sensor_msgs::Illuminance msg;
@@ -105,11 +105,11 @@ namespace gazebo
       msg.header.seq = seq;
 
       double illum = 0;
-			for (int i=0; i<_height ; i++)
-			{
-				for (int j=0; j<_width ; j++)
-					illum += _image[i*width+j];
-			}
+      for (int i=0; i<_height ; i++)
+      {
+        for (int j=0; j<_width ; j++)
+          illum += _image[i*width+j];
+      }
       msg.illuminance = illum/(_width*_height);
 
       msg.variance = 0.0;
