@@ -1,0 +1,8 @@
+<launch>
+
+  <include file="$(find prisme_gazebo)/launch/prisme_line.launch" />
+	<!--include file="$(find prisme_description)/launch/prisme_rviz.launch" /-->
+
+	<node pkg="prisme_control" type="line_follower.py" name="line_follower" />
+
+</launch>
