@@ -213,12 +213,12 @@
 
 	<!-- Linear Camera Link -->
 	<link name="lc">
-		<visual>
+		<!--visual>
 			<geometry>
 				<box size="0.01 0.017 0.017"/>
 			</geometry>
 			<material name="green"/>
-		</visual>
+		</visual-->
 	</link>
 
 	<!-- Linear Camera Joint -->
