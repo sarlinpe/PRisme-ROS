@@ -102,7 +102,6 @@
 		      </clip>
 				</camera>
 				<plugin name="light_sensor_gazebo" filename="liblight_sensor_gazebo.so">
-					<!--fov>6</fov-->
 					<robotNamespace>/prisme</robotNamespace>
 					<illuminanceTopicName>ir_under_${position}</illuminanceTopicName>
 					<alwaysOn>true</alwaysOn>

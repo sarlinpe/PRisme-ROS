@@ -33,8 +33,6 @@ namespace gazebo
     ros::NodeHandle* _nh;
     ros::Publisher _sensorPublisher;
 		std::string _frameName;
-
-    double _fov;
   };
 }
 

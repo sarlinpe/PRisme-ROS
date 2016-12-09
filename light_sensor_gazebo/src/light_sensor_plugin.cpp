@@ -20,7 +20,6 @@ namespace gazebo
   ////////////////////////////////////////////////////////////////////////////////
   // Constructor
   GazeboRosLight::GazeboRosLight():
-	_fov(6),
 	_robotNamespace("/"),
 	_illuminanceTopic("light_sensor"),
 	_frameName("")
@@ -74,9 +73,6 @@ namespace gazebo
 			this->parentSensor_->SetUpdateRate(this->update_rate_);
 		}
 
-		if (_sdf->HasElement("fov")) // maybe useless ?
-			this->_fov = _sdf->Get<unsigned>("fov");
-
 		if (_sdf->HasElement("robotNamespace"))
 			this->_robotNamespace = _sdf->Get<std::string>("robotNamespace");
 		this->_nh = new ros::NodeHandle(this->_robotNamespace);
@@ -108,17 +104,14 @@ namespace gazebo
       msg.header.frame_id = this->_frameName;
       msg.header.seq = seq;
 
-      int startingPix = _width * ( (int)(_height/2) - (int)( _fov/2)) - (int)(_fov/2);
-
       double illum = 0;
-      for (int i=0; i<_fov ; ++i)
-      {
-        int index = startingPix + i*_width;
-        for (int j=0; j<_fov ; ++j)
-          illum += _image[index+j];
-      }
+			for (int i=0; i<_height ; i++)
+			{
+				for (int j=0; j<_width ; j++)
+					illum += _image[i*width+j];
+			}
+      msg.illuminance = illum/(_width*_height);
 
-      msg.illuminance = illum/(_fov*_fov);
       msg.variance = 0.0;
 
       _sensorPublisher.publish(msg);
