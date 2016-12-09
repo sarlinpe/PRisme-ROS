@@ -93,8 +93,8 @@
 		      <horizontal_fov>1.4</horizontal_fov>
 					<!--horizontal_fov>1.4</horizontal_fov-->
 					<image>
-					 	<width>10</width>
-					 	<height>10</height>
+					 	<width>5</width>
+					 	<height>5</height>
 					</image>
 		      <clip>
 		        <near>0.001</near>
@@ -106,7 +106,7 @@
 					<robotNamespace>/prisme</robotNamespace>
 					<illuminanceTopicName>ir_under_${position}</illuminanceTopicName>
 					<alwaysOn>true</alwaysOn>
-					<updateRate>2</updateRate>
+					<updateRate>20</updateRate>
 					<frameName>ir_under_${position}</frameName>
 					<baseline>0.1</baseline>
 				</plugin>
@@ -129,41 +129,12 @@
 		  <rightJoint>joint_right</rightJoint>
 		  <wheelSeparation>${width+2*offset_side+wheel_thick}</wheelSeparation>
 		  <wheelDiameter>${2*wheel_rad}</wheelDiameter>
-		  <torque>20</torque>
+		  <torque>40</torque>
 		  <commandTopic>cmd_vel</commandTopic>
 		  <odometryTopic>odom</odometryTopic>
 		  <odometryFrame>odom</odometryFrame>
 		  <robotBaseFrame>base</robotBaseFrame>
 		</plugin>
 	</gazebo>
-
-	<!-- Light sensor -->
-	<!--gazebo reference="ir_front_left_center">
-		<sensor type="camera" name="light_sensor_1">
-		  <visualize>true</visualize>
-			<camera name='test'>
-        <horizontal_fov>2</horizontal_fov>
-				<horizontal_fov>2</horizontal_fov>
-				<image>
-				 	<width>25</width>
-				 	<height>25</height>
-				</image>
-        <clip>
-          <near>0.001</near>
-          <far>10</far>
-        </clip>
-			</camera>
-
-			<plugin name="light_sensor_gazebo" filename="liblight_sensor_gazebo.so">
-				<robotNamespace>/prisme</robotNamespace>
-				<cameraName>light_sensor_cam</cameraName>
-				<alwaysOn>true</alwaysOn>
-				<updateRate>2</updateRate>
-				<imageTopicName>image_raw</imageTopicName>
-				<frameName>ir_front_left_center</frameName>
-				<baseline>0.1</baseline>
-			</plugin>
-		</sensor>
-	</gazebo-->
 
 </robot>
