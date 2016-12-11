@@ -4,8 +4,8 @@
 
 	<!-- Fake values -->
   <xacro:property name="mass_body" value="0.300" />
-	<xacro:property name="mass_wheel" value="0.05" />
-	<xacro:property name="mass_bpack" value="0.4" />
+	<xacro:property name="mass_wheel" value="0.025" />
+	<xacro:property name="mass_bpack" value="0.300" />
 
 	<xacro:property name="width" value="0.0936" /> <!-- 2*46.8 = 93.6 mm -->
 	<xacro:property name="length" value="0.120" /> <!-- 120 mm -->
