@@ -3,6 +3,6 @@
   <include file="$(find prisme_gazebo)/launch/prisme_obstacles.launch" />
 	<include file="$(find prisme_description)/launch/prisme_rviz.launch" />
 
-	<node pkg="prisme_control" type="obstacles.py" name="obstacles" />
+	<node pkg="prisme_command" type="obstacles.py" name="obstacles" />
 
 </launch>
