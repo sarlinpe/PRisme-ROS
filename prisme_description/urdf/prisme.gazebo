@@ -201,6 +201,14 @@
 
 	<!-- Motors driver -->
 	<gazebo>
+
+		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+		  <robotNamespace>/prisme</robotNamespace>
+			<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+		</plugin>
+	</gazebo>
+
+	<!--
 		<plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
 			<legacyMode>true</legacyMode>
 		  <alwaysOn>true</alwaysOn>
@@ -215,7 +223,8 @@
 		  <odometryTopic>odom</odometryTopic>
 		  <odometryFrame>odom</odometryFrame>
 		  <robotBaseFrame>base</robotBaseFrame>
-		</plugin>
+		</plugin> 
 	</gazebo>
+	-->
 
 </robot>
