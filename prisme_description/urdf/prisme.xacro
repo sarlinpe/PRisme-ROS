@@ -57,11 +57,10 @@
     <inertial>
       <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
       <mass value="${mass_body}"/>
-			<!-- Fake values -->
       <inertia 
-				ixx="${1e-3}" ixy="0.0" ixz="0.0"
-	  		iyy="${1e-3}" iyz="0.0"
-	  		izz="${1e-3}"/>
+				ixx="${3e-4}" ixy="0.0" ixz="0.0"
+	  		iyy="${5e-4}" iyz="0.0"
+	  		izz="${6e-4}"/>
     </inertial>
   </link>
 
@@ -84,13 +83,12 @@
 			</visual>
 
 		  <inertial>
-		    <origin xyz="0 0 0" rpy="0 0 0"/> <!-- maybe wrong... -->
+		    <origin xyz="0 0 0" rpy="0 0 0"/>
 		    <mass value="${mass_wheel}"/>
-				<!-- Fake values -->
 		    <inertia 
-					ixx="${1e-4}" ixy="0.0" ixz="0.0"
-					iyy="${1e-4}" iyz="0.0"
-					izz="${1e-4}"/>
+					ixx="${0.8e-5}" ixy="0.0" ixz="0.0"
+					iyy="${1.5e-5}" iyz="0.0"
+					izz="${0.8e-5}"/>
 		  </inertial>
 		</link>
 
@@ -100,6 +98,7 @@
     	<origin xyz="0 ${reflect*(width/2+offset_side+wheel_thick/2)} ${height_axis}" rpy="0 0 0"/>
     	<axis xyz="0 1 0"/>
     	<dynamics damping="1"/>
+    	<dynamics friction="1" damping="1.0"/>
   	</joint>
 
 	</xacro:macro>
@@ -149,13 +148,12 @@
 		</collision>
 
 	  <inertial>
-	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
 	    <mass value="${mass_bpack}"/>
-			<!-- Fake values -->
 	    <inertia 
-				ixx="${1e-3}" ixy="0.0" ixz="0.0"
-				iyy="${1e-3}" iyz="0.0"
-				izz="${1e-3}"/>
+				ixx="${1.5e-4}" ixy="0.0" ixz="0.0"
+				iyy="${1e-4}" iyz="0.0"
+				izz="${0.7e-4}"/>
 	  </inertial>
 	</link>
 
