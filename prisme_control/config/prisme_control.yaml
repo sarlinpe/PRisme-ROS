@@ -1,0 +1,15 @@
+prisme:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  # Position Controllers ---------------------------------------
+  joint_left_vel_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: joint_left
+    pid: {p: 100.0, i: 0.1, d: 0.0}
+  joint_right_vel_controller:
+    type: velocity_controllers/JointVelocityController
+    joint: joint_right
+    pid: {p: 100.0, i: 0.1, d: 0.0}
