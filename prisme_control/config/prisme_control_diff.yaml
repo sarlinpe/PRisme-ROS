@@ -1,0 +1,30 @@
+prisme:
+
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  vel_controller:
+    type: "diff_drive_controller/DiffDriveController"
+    publish_rate: 50
+
+    left_wheel: 'joint_left'
+    right_wheel: 'joint_right'
+    wheel_separation : 0.1056
+    wheel_radius : 0.035
+    base_frame_id: base
+
+    # Covariance values taken from the husky
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.03]
+
+    # Velocities limits
+    linear:
+      x:
+        has_velocity_limits    : true
+        max_velocity           : 1.0  # m/s
+        min_velocity           : -0.5 # m/s
+    angular:
+      z:
+        has_velocity_limits    : true
+        max_velocity           : 3.0  # rad/s
