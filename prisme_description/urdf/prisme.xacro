@@ -14,10 +14,11 @@
 	<xacro:property name="offset_side" value="0.002" /> <!-- 2 mm -->
 
 	<xacro:property name="wheel_thick" value="0.008" /> <!-- 8 mm -->
-	<xacro:property name="wheel_rad" value="0.035" /> <!-- 35 mm -->
+	<xacro:property name="wheel_radius" value="0.035" /> <!-- 35 mm -->
+	<xacro:property name="wheel_separation" value="${width+2*offset_side+wheel_thick}"/>
 
 	<xacro:property name="caster_sphere_rad" value="0.006" /> <!-- 6 mm -->
-	<xacro:property name="caster_rod_length" value="${(wheel_rad-height_axis)-2*caster_sphere_rad}" />
+	<xacro:property name="caster_rod_length" value="${(wheel_radius-height_axis)-2*caster_sphere_rad}" />
 	<xacro:property name="caster_offset" value="0.045" /> <!-- 45 mm -->
 
 	<xacro:property name="bpack_length" value="0.028" /> <!-- 28 mm -->
@@ -78,12 +79,12 @@
 			<collision>
 				<origin rpy="${reflect*pi/2} 0 0" />
 				<geometry>
-					<cylinder length="${wheel_thick}" radius="${wheel_rad}" />
+					<cylinder length="${wheel_thick}" radius="${wheel_radius}" />
 				</geometry>
 			</collision>
 
 			<visual>
-				<origin xyz="${wheel_rad} -${wheel_thick/2} -${wheel_rad}" rpy="0 0 ${pi/2}" />
+				<origin xyz="${wheel_radius} -${wheel_thick/2} -${wheel_radius}" rpy="0 0 ${pi/2}" />
 				<geometry>
 					<mesh filename="package://prisme_description/meshes/wheel.stl" scale="0.001 0.001 0.001"/>
 				</geometry>
