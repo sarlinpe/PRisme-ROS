@@ -1,7 +1,8 @@
 <launch>
 
   <include file="$(find prisme_gazebo)/launch/prisme_obstacles.launch" />
-	<include file="$(find prisme_description)/launch/prisme_rviz.launch" />
+	<include file="$(find prisme_control)/launch/prisme_control.launch" />
+	<!--include file="$(find prisme_description)/launch/prisme_rviz.launch" /-->
 
 	<node pkg="prisme_command" type="obstacles.py" name="obstacles" />
 

@@ -79,6 +79,7 @@ def initialize():
     """Initialize the sample node."""
     global pub
     namespace = "/prisme/"
+    controller = "vel_controller/"
 
     # Provide a name for the node
     rospy.init_node("explore", anonymous=True)
@@ -103,7 +104,7 @@ def initialize():
     ts_ir_front.registerCallback(process_ir_front)
 
     # Publish the linear and angular velocities so the robot can move
-    pub = rospy.Publisher("cmd_vel", Twist, queue_size=1)
+    pub = rospy.Publisher(namespace+controller+"cmd_vel", Twist, queue_size=1)
 
     # Register the callback for when the node is stopped
     rospy.on_shutdown(stop_robot)

@@ -24,7 +24,7 @@ def process_ir_under(ir_left, ir_right):
     delta = ir_left.illuminance - ir_right.illuminance
 
     v_linear = base_lin_speed / (1 + k_linear*abs(delta))
-    v_angular = base_ang_speed * k_angular * delta
+    v_angular = -1 * base_ang_speed * k_angular * delta
 
     rospy.loginfo("Delta: %f,\tv_lin: %f, \tv_ang: %f", delta, v_linear, v_angular)
 
@@ -59,6 +59,7 @@ def initialize():
     """Initialize the sample node."""
     global pub
     namespace = "/prisme/"
+    controller = "vel_controller/"
 
     # Provide a name for the node
     rospy.init_node("line_follower", anonymous=True)
@@ -77,7 +78,7 @@ def initialize():
     ts_ir_under.registerCallback(process_ir_under)
 
     # Publish the linear and angular velocities so the robot can move
-    pub = rospy.Publisher("cmd_vel", Twist, queue_size=1)
+    pub = rospy.Publisher(namespace+controller+"cmd_vel", Twist, queue_size=1)
 
     # Register the callback for when the node is stopped
     rospy.on_shutdown(stop_robot)
