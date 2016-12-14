@@ -69,8 +69,8 @@
     <material>Gazebo/White</material>
   </gazebo>
   <gazebo reference="caster_sphere">
-    <mu1>0.0001</mu1>
-    <mu2>0.0001</mu2>
+    <mu1>0.0</mu1>
+    <mu2>0.0</mu2>
     <material>Gazebo/White</material>
   </gazebo>
 
