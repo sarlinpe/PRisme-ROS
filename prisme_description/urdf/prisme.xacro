@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-
 <robot name="prisme" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <!-- Fake values -->
   <xacro:property name="mass_body" value="0.300" />
   <xacro:property name="mass_wheel" value="0.025" />
   <xacro:property name="mass_bpack" value="0.300" />
