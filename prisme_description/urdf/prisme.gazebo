@@ -1,70 +1,70 @@
 <?xml version="1.0"?>
 <robot name="prisme" 
-	xmlns:xacro="http://www.ros.org/wiki/xacro" 
-	xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
-	xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" >
+  xmlns:xacro="http://www.ros.org/wiki/xacro" 
+  xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface" >
 
-	<!-- Setting the value to zero would result in high unkown rates... -->
-	<xacro:property name="rate_control" value="30" />
-	<xacro:property name="rate_ir_front" value="20" />
-	<xacro:property name="rate_ir_under" value="20" />
-	<xacro:property name="rate_lc" value="1" />
-	<xacro:property name="rate_imu" value="1" />
+  <!-- Setting the value to zero would result in high unkown rates... -->
+  <xacro:property name="rate_control" value="30" />
+  <xacro:property name="rate_ir_front" value="20" />
+  <xacro:property name="rate_ir_under" value="20" />
+  <xacro:property name="rate_lc" value="1" />
+  <xacro:property name="rate_imu" value="1" />
 
-	<xacro:property name="ir_fov" value="0.2" />
-	<xacro:property name="ir_min_range" value="0.0" />
-	<xacro:property name="ir_max_range" value="0.2" />
-	<xacro:property name="ir_res" value="0.005" />
+  <xacro:property name="ir_fov" value="0.2" />
+  <xacro:property name="ir_min_range" value="0.0" />
+  <xacro:property name="ir_max_range" value="0.2" />
+  <xacro:property name="ir_res" value="0.005" />
 
   <!-- Base -->
   <gazebo reference="base">
     <material>Gazebo/Red</material>
 
-		<sensor name="imu" type="imu">
+    <sensor name="imu" type="imu">
       <always_on>true</always_on>
-    	<update_rate>${rate_imu}</update_rate>
+      <update_rate>${rate_imu}</update_rate>
       <pose>0 0 0 0 0 0 </pose>
-			<imu>
-				<noise>
-					<type>gaussian</type>
-					<rate>
-						<mean>0.0</mean>
-						<stddev>2e-4</stddev>
-          	<bias_mean>0.0000075</bias_mean>
+      <imu>
+        <noise>
+          <type>gaussian</type>
+          <rate>
+            <mean>0.0</mean>
+            <stddev>2e-4</stddev>
+            <bias_mean>0.0000075</bias_mean>
             <bias_stddev>0.0000008</bias_stddev>
-					</rate>
-					<accel>
+          </rate>
+          <accel>
             <mean>0.0</mean>
             <stddev>1.7e-2</stddev>
             <bias_mean>0.1</bias_mean>
             <bias_stddev>0.001</bias_stddev>
-					</accel>
-				</noise>
-			</imu>
-			<plugin name='imu_gazebo' filename='libimu_gazebo.so'>
-					<robotNamespace>/prisme</robotNamespace>
-					<topicName>imu</topicName>
-					<bodyName>base</bodyName>
-					<updateRateHZ>${rate_imu}</updateRateHZ>
-					<gaussianNoise>0.0</gaussianNoise>
-					<xyzOffset>0 0 0</xyzOffset>
-					<rpyOffset>0 0 0</rpyOffset>
-			</plugin>
+          </accel>
+        </noise>
+      </imu>
+      <plugin name='imu_gazebo' filename='libimu_gazebo.so'>
+          <robotNamespace>/prisme</robotNamespace>
+          <topicName>imu</topicName>
+          <bodyName>base</bodyName>
+          <updateRateHZ>${rate_imu}</updateRateHZ>
+          <gaussianNoise>0.0</gaussianNoise>
+          <xyzOffset>0 0 0</xyzOffset>
+          <rpyOffset>0 0 0</rpyOffset>
+      </plugin>
     </sensor>
   </gazebo>
 
   <!-- Wheels -->
-	<xacro:macro name="wheel_gz" params="side">
-		<gazebo reference="wheel_${side}">
-		  <mu1>30</mu1>
-		  <mu2>30</mu2>
-		  <material>Gazebo/Black</material>
-		</gazebo>
-	</xacro:macro>
-	<xacro:wheel_gz side="left"/>
-	<xacro:wheel_gz side="right"/>
+  <xacro:macro name="wheel_gz" params="side">
+    <gazebo reference="wheel_${side}">
+      <mu1>30</mu1>
+      <mu2>30</mu2>
+      <material>Gazebo/Black</material>
+    </gazebo>
+  </xacro:macro>
+  <xacro:wheel_gz side="left"/>
+  <xacro:wheel_gz side="right"/>
 
-	<!-- Caster -->
+  <!-- Caster -->
   <gazebo reference="caster_rod">
     <material>Gazebo/White</material>
   </gazebo>
@@ -74,103 +74,103 @@
     <material>Gazebo/White</material>
   </gazebo>
 
-	<!-- Battery Pack -->
+  <!-- Battery Pack -->
   <gazebo reference="bpack">
     <material>Gazebo/Purple</material>
   </gazebo>
 
   <!-- IR front macro -->
-	<xacro:macro name="ir_front_gz" params="position">
-		<gazebo reference="ir_front_${position}">
-			<material>Gazebo/Green</material>
-			<sensor type="ray" name="sensor_ir_front_${position}">
-			  <visualize>true</visualize>
-			  <update_rate>${rate_ir_front}</update_rate>
-			  <ray>
-			    <scan>
-			      <horizontal>
-			        <samples>5</samples>
-			        <resolution>1</resolution>
-			        <min_angle>-${ir_fov/2}</min_angle>
-			        <max_angle>${ir_fov/2}</max_angle>
-			      </horizontal>
-			    </scan>
-			    <range>
-			      <min>${ir_min_range}</min>
-			      <max>${ir_max_range}</max>
-			      <resolution>${ir_res}</resolution>
-			    </range>
-			  </ray>
-			  <plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
-					<gaussianNoise>0.005</gaussianNoise>
-			    <alwaysOn>true</alwaysOn>
-					<updateRate>${rate_ir_front}</updateRate>
-					<radiation>infrared</radiation>
-					<fov>${ir_fov}</fov>
-			    <topicName>/prisme/ir_front_${position}</topicName>
-			    <frameName>ir_front_${position}</frameName>
-			  </plugin>
-			</sensor>
-		</gazebo>
-	</xacro:macro>
+  <xacro:macro name="ir_front_gz" params="position">
+    <gazebo reference="ir_front_${position}">
+      <material>Gazebo/Green</material>
+      <sensor type="ray" name="sensor_ir_front_${position}">
+        <visualize>true</visualize>
+        <update_rate>${rate_ir_front}</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>5</samples>
+              <resolution>1</resolution>
+              <min_angle>-${ir_fov/2}</min_angle>
+              <max_angle>${ir_fov/2}</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>${ir_min_range}</min>
+            <max>${ir_max_range}</max>
+            <resolution>${ir_res}</resolution>
+          </range>
+        </ray>
+        <plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+          <gaussianNoise>0.005</gaussianNoise>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>${rate_ir_front}</updateRate>
+          <radiation>infrared</radiation>
+          <fov>${ir_fov}</fov>
+          <topicName>/prisme/ir_front_${position}</topicName>
+          <frameName>ir_front_${position}</frameName>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
 
-	<!-- IR front sensors -->
-	<xacro:ir_front_gz position="left_center" />
-	<xacro:ir_front_gz position="right_center" />
-	<xacro:ir_front_gz position="left" />
-	<xacro:ir_front_gz position="right" />
+  <!-- IR front sensors -->
+  <xacro:ir_front_gz position="left_center" />
+  <xacro:ir_front_gz position="right_center" />
+  <xacro:ir_front_gz position="left" />
+  <xacro:ir_front_gz position="right" />
 
-	<!-- IR under macro -->
-	<xacro:macro name="ir_under_gz" params="position">
-		<gazebo reference="ir_under_${position}">
-			<material>Gazebo/Yellow</material>
-			<sensor type="camera" name="light_sensor_${position}">
-				<visualize>true</visualize>
-				<camera name='test'>
-		      <horizontal_fov>1.2</horizontal_fov>
-					<image>
-					 	<width>2</width>
-					 	<height>2</height>
-					</image>
-		      <clip>
-		        <near>0.0001</near>
-		        <far>10</far>
-		      </clip>
-					<noise>
-		        <type>gaussian</type>
-		        <mean>0.0</mean>
-		        <stddev>0.05</stddev>
-        	</noise>
-				</camera>
-				<plugin name="light_sensor_gazebo" filename="liblight_sensor_gazebo.so">
-					<robotNamespace>/prisme</robotNamespace>
-					<illuminanceTopicName>ir_under_${position}</illuminanceTopicName>
-					<alwaysOn>true</alwaysOn>
-					<updateRate>${rate_ir_under}</updateRate>
-					<frameName>ir_under_${position}</frameName>
-					<baseline>0</baseline>
-				</plugin>
-			</sensor>
-		</gazebo>
-	</xacro:macro>
+  <!-- IR under macro -->
+  <xacro:macro name="ir_under_gz" params="position">
+    <gazebo reference="ir_under_${position}">
+      <material>Gazebo/Yellow</material>
+      <sensor type="camera" name="light_sensor_${position}">
+        <visualize>true</visualize>
+        <camera name='test'>
+          <horizontal_fov>1.2</horizontal_fov>
+          <image>
+            <width>2</width>
+            <height>2</height>
+          </image>
+          <clip>
+            <near>0.0001</near>
+            <far>10</far>
+          </clip>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.05</stddev>
+          </noise>
+        </camera>
+        <plugin name="light_sensor_gazebo" filename="liblight_sensor_gazebo.so">
+          <robotNamespace>/prisme</robotNamespace>
+          <illuminanceTopicName>ir_under_${position}</illuminanceTopicName>
+          <alwaysOn>true</alwaysOn>
+          <updateRate>${rate_ir_under}</updateRate>
+          <frameName>ir_under_${position}</frameName>
+          <baseline>0</baseline>
+        </plugin>
+      </sensor>
+    </gazebo>
+  </xacro:macro>
 
-	<!-- IR under sensors -->
-	<xacro:ir_under_gz position="left" />
-	<xacro:ir_under_gz position="right" />
+  <!-- IR under sensors -->
+  <xacro:ir_under_gz position="left" />
+  <xacro:ir_under_gz position="right" />
 
-	<!-- Linear Camera -->
+  <!-- Linear Camera -->
   <gazebo reference="lc">
-		<material>
-		  <script>
-		  	<uri>file://media/materials/scripts/gazebo.material</uri>
-		  	<name>Gazebo/Green</name>
-		  </script>
-		</material>
-		<sensor type="camera" name="lc">
-			<update_rate>${rate_lc}</update_rate>
-			<visualize>true</visualize>
+    <material>
+      <script>
+        <uri>file://media/materials/scripts/gazebo.material</uri>
+        <name>Gazebo/Green</name>
+      </script>
+    </material>
+    <sensor type="camera" name="lc">
+      <update_rate>${rate_lc}</update_rate>
+      <visualize>true</visualize>
       <camera name="head">
-				<horizontal_fov>1.4</horizontal_fov>
+        <horizontal_fov>1.4</horizontal_fov>
         <image>
           <width>103</width>
           <height>1</height>
@@ -187,7 +187,7 @@
         </noise>
       </camera>
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
-				<robotNamespace>/prisme</robotNamespace>
+        <robotNamespace>/prisme</robotNamespace>
         <cameraName>linear_camera</cameraName>
         <imageTopicName>image</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
@@ -199,13 +199,12 @@
     </sensor>
   </gazebo>
 
-	<!-- Motors driver -->
-	<gazebo>
-
-		<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-		  <robotNamespace>/prisme</robotNamespace>
-			<robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
-		</plugin>
-	</gazebo>
+  <!-- Motors driver -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/prisme</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
 
 </robot>

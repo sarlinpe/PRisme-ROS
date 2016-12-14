@@ -7,8 +7,8 @@
       <uri>model://sun</uri>
     </include>
 
-		<light type="spot" name="spot1">
-			<cast_shadows>true</cast_shadows>
+    <light type="spot" name="spot1">
+      <cast_shadows>true</cast_shadows>
       <pose>0 0.6 0.07 1.57079632679 0 0</pose>
       <diffuse>1 1 1 1</diffuse>
       <specular>.1 .1 .1 1</specular>
@@ -18,16 +18,16 @@
         <constant>0.5</constant>
         <quadratic>0</quadratic>
       </attenuation>
-			<spot>
-				<inner_angle>0.01</inner_angle>
-				<outer_angle>0.2</outer_angle>
-				<falloff>1.0</falloff>
-			</spot>
+      <spot>
+        <inner_angle>0.01</inner_angle>
+        <outer_angle>0.2</outer_angle>
+        <falloff>1.0</falloff>
+      </spot>
       <cast_shadows>true</cast_shadows>
-		</light>
+    </light>
 
-		<light type="spot" name="spot2">
-			<cast_shadows>true</cast_shadows>
+    <light type="spot" name="spot2">
+      <cast_shadows>true</cast_shadows>
       <pose>0 -0.6 0.07 -1.57079632679 0 0</pose>
       <diffuse>1 1 1 1</diffuse>
       <specular>.1 .1 .1 1</specular>
@@ -37,54 +37,54 @@
         <constant>0.5</constant>
         <quadratic>0</quadratic>
       </attenuation>
-			<spot>
-				<inner_angle>0.01</inner_angle>
-				<outer_angle>0.2</outer_angle>
-				<falloff>1.0</falloff>
-			</spot>
+      <spot>
+        <inner_angle>0.01</inner_angle>
+        <outer_angle>0.2</outer_angle>
+        <falloff>1.0</falloff>
+      </spot>
       <cast_shadows>true</cast_shadows>
-		</light>
+    </light>
 
-		<model name="white_plane">
-		  <static>true</static>
-		  <link name="link">
-				<collision name="collision">
-		      <geometry>
-		        <plane>
-		          <normal>0 0 1</normal>
-		          <size>100 100</size>
-		        </plane>
-		      </geometry>
-		      <surface>
-		        <friction>
-		          <ode>
-		            <mu>100</mu>
-		            <mu2>50</mu2>
-		          </ode>
-		        </friction>
-		      </surface>
-		    </collision>
-		    <visual name="visual">
-		      <cast_shadows>false</cast_shadows>
-		      <geometry>
-		        <plane>
-		          <normal>0 0 1</normal>
-		          <size>2 2</size>
-		        </plane>
-		      </geometry>
-		      <material>
-		        <script>
-		          <uri>file://media/materials/scripts/gazebo.material</uri>
-		          <name>Gazebo/White</name>
-		        </script>
-		      </material>
-					<cast_shadows>true</cast_shadows>
-		    </visual>
-		  </link>
-		</model>
+    <model name="white_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+            </friction>
+          </surface>
+        </collision>
+        <visual name="visual">
+          <cast_shadows>false</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>2 2</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/White</name>
+            </script>
+          </material>
+          <cast_shadows>true</cast_shadows>
+        </visual>
+      </link>
+    </model>
 
-		<model name="wall1">
-			<static>true</static>
+    <model name="wall1">
+      <static>true</static>
       <pose>0 -1 0.05 0 0 0</pose>
       <link name="link">
         <collision name="collision">
@@ -100,19 +100,19 @@
               <size>2 0.01 0.1</size>
             </box>
           </geometry>
-					<material>
-		        <script>
-		          <uri>file://media/materials/scripts/gazebo.material</uri>
-		          <name>Gazebo/Grey</name>
-		        </script>
-        	</material>
-					<cast_shadows>true</cast_shadows>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+          <cast_shadows>true</cast_shadows>
         </visual>
       </link>
-		</model>
-	
-		<model name="wall2">
-			<static>true</static>
+    </model>
+  
+    <model name="wall2">
+      <static>true</static>
       <pose>0 1 0.05 0 0 0</pose>
       <link name="link">
         <collision name="collision">
@@ -128,19 +128,19 @@
               <size>2 0.01 0.1</size>
             </box>
           </geometry>
-					<material>
-		        <script>
-		          <uri>file://media/materials/scripts/gazebo.material</uri>
-		          <name>Gazebo/Grey</name>
-		        </script>
-        	</material>
-					<cast_shadows>true</cast_shadows>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+          <cast_shadows>true</cast_shadows>
         </visual>
       </link>
-		</model>
+    </model>
 
-		<model name="wall3">
-			<static>true</static>
+    <model name="wall3">
+      <static>true</static>
       <pose>-1 0 0.05 0 0 0</pose>
       <link name="link">
         <collision name="collision">
@@ -156,19 +156,19 @@
               <size>0.01 2 0.1</size>
             </box>
           </geometry>
-					<material>
-		        <script>
-		          <uri>file://media/materials/scripts/gazebo.material</uri>
-		          <name>Gazebo/Grey</name>
-		        </script>
-        	</material>
-					<cast_shadows>true</cast_shadows>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+          <cast_shadows>true</cast_shadows>
         </visual>
       </link>
-		</model>
+    </model>
 
-		<model name="wall4">
-			<static>true</static>
+    <model name="wall4">
+      <static>true</static>
       <pose>1 0 0.05 0 0 0</pose>
       <link name="link">
         <collision name="collision">
@@ -184,16 +184,16 @@
               <size>0.01 2 0.1</size>
             </box>
           </geometry>
-					<material>
-		        <script>
-		          <uri>file://media/materials/scripts/gazebo.material</uri>
-		          <name>Gazebo/Grey</name>
-		        </script>
-        	</material>
-					<cast_shadows>true</cast_shadows>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+          <cast_shadows>true</cast_shadows>
         </visual>
       </link>
-		</model>
+    </model>
 
   </world>
 </sdf>

@@ -11,8 +11,8 @@
       <uri>model://sun</uri>
     </include>
 
-		<model name="wall1">
-			<static>true</static>
+    <model name="wall1">
+      <static>true</static>
       <pose>0 -1 0.05 0 0 0</pose>
       <link name="link">
         <collision name="collision">
@@ -30,10 +30,10 @@
           </geometry>
         </visual>
       </link>
-		</model>
-	
-		<model name="wall2">
-			<static>true</static>
+    </model>
+  
+    <model name="wall2">
+      <static>true</static>
       <pose>0 1 0.05 0 0 0</pose>
       <link name="link">
         <collision name="collision">
@@ -51,10 +51,10 @@
           </geometry>
         </visual>
       </link>
-		</model>
+    </model>
 
-		<model name="wall3">
-			<static>true</static>
+    <model name="wall3">
+      <static>true</static>
       <pose>-1 0 0.05 0 0 0</pose>
       <link name="link">
         <collision name="collision">
@@ -72,10 +72,10 @@
           </geometry>
         </visual>
       </link>
-		</model>
+    </model>
 
-		<model name="wall4">
-			<static>true</static>
+    <model name="wall4">
+      <static>true</static>
       <pose>1 0 0.05 0 0 0</pose>
       <link name="link">
         <collision name="collision">
@@ -93,39 +93,39 @@
           </geometry>
         </visual>
       </link>
-		</model>
+    </model>
 
-		<!-- For Gazebo >= 5... -->
-		<population name="cyl_pop">
-	 		<model name="cylinder">
-				<static>true</static>
-		    <link name="link">
-		      <collision name="collision">
-		        <geometry>
-		          <cylinder>
-		            <radius>0.04</radius>
-		            <length>0.1</length>
-		          </cylinder>
-		        </geometry>
-		      </collision>
-		      <visual name="visual">
-		        <geometry>
-		          <cylinder>
-		            <radius>0.04</radius>
-		            <length>0.2</length>
-		          </cylinder>
-		        </geometry>
-		      </visual>
-		    </link>
-			</model>
-	    <pose>0 0 0 0 0 0</pose>
-			<box>
+    <!-- For Gazebo >= 5... -->
+    <population name="cyl_pop">
+      <model name="cylinder">
+        <static>true</static>
+        <link name="link">
+          <collision name="collision">
+            <geometry>
+              <cylinder>
+                <radius>0.04</radius>
+                <length>0.1</length>
+              </cylinder>
+            </geometry>
+          </collision>
+          <visual name="visual">
+            <geometry>
+              <cylinder>
+                <radius>0.04</radius>
+                <length>0.2</length>
+              </cylinder>
+            </geometry>
+          </visual>
+        </link>
+      </model>
+      <pose>0 0 0 0 0 0</pose>
+      <box>
         <size>1.9 1.9 0.01</size>
       </box>
       <model_count>15</model_count>
       <distribution>
         <type>random</type>
       </distribution>
-		</population>
+    </population>
   </world>
 </sdf>

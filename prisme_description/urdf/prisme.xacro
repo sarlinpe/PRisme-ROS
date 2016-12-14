@@ -2,36 +2,36 @@
 
 <robot name="prisme" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-	<!-- Fake values -->
+  <!-- Fake values -->
   <xacro:property name="mass_body" value="0.300" />
-	<xacro:property name="mass_wheel" value="0.025" />
-	<xacro:property name="mass_bpack" value="0.300" />
+  <xacro:property name="mass_wheel" value="0.025" />
+  <xacro:property name="mass_bpack" value="0.300" />
 
-	<xacro:property name="width" value="0.0936" /> <!-- 2*46.8 = 93.6 mm -->
-	<xacro:property name="length" value="0.120" /> <!-- 120 mm -->
-	<xacro:property name="height" value="0.036" /> <!-- 18+75=93 mm -->
-	<xacro:property name="height_axis" value="0.018" /> <!-- 18 mm -->
-	<xacro:property name="offset_side" value="0.002" /> <!-- 2 mm -->
+  <xacro:property name="width" value="0.0936" /> <!-- 2*46.8 = 93.6 mm -->
+  <xacro:property name="length" value="0.120" /> <!-- 120 mm -->
+  <xacro:property name="height" value="0.036" /> <!-- 18+75=93 mm -->
+  <xacro:property name="height_axis" value="0.018" /> <!-- 18 mm -->
+  <xacro:property name="offset_side" value="0.002" /> <!-- 2 mm -->
 
-	<xacro:property name="wheel_thick" value="0.008" /> <!-- 8 mm -->
-	<xacro:property name="wheel_radius" value="0.035" /> <!-- 35 mm -->
-	<xacro:property name="wheel_separation" value="${width+2*offset_side+wheel_thick}"/>
+  <xacro:property name="wheel_thick" value="0.008" /> <!-- 8 mm -->
+  <xacro:property name="wheel_radius" value="0.035" /> <!-- 35 mm -->
+  <xacro:property name="wheel_separation" value="${width+2*offset_side+wheel_thick}"/>
 
-	<xacro:property name="caster_sphere_rad" value="0.006" /> <!-- 6 mm -->
-	<xacro:property name="caster_rod_length" value="${(wheel_radius-height_axis)-2*caster_sphere_rad}" />
-	<xacro:property name="caster_offset" value="0.045" /> <!-- 45 mm -->
+  <xacro:property name="caster_sphere_rad" value="0.006" /> <!-- 6 mm -->
+  <xacro:property name="caster_rod_length" value="${(wheel_radius-height_axis)-2*caster_sphere_rad}" />
+  <xacro:property name="caster_offset" value="0.045" /> <!-- 45 mm -->
 
-	<xacro:property name="bpack_length" value="0.028" /> <!-- 28 mm -->
-	<xacro:property name="bpack_width" value="0.045" /> <!-- 45 mm -->
-	<xacro:property name="bpack_offset" value="0.010" /> <!-- 10 mm -->
-	<xacro:property name="bpack_height" value="0.058" /> <!-- 58 mm -->
+  <xacro:property name="bpack_length" value="0.028" /> <!-- 28 mm -->
+  <xacro:property name="bpack_width" value="0.045" /> <!-- 45 mm -->
+  <xacro:property name="bpack_offset" value="0.010" /> <!-- 10 mm -->
+  <xacro:property name="bpack_height" value="0.058" /> <!-- 58 mm -->
 
-	<xacro:property name="ir_front_rad" value="0.06" />
-	<xacro:property name="ir_angle1" value="${radians(17.5)}" />
-	<xacro:property name="ir_angle2" value="${radians(42.5)}" />
+  <xacro:property name="ir_front_rad" value="0.06" />
+  <xacro:property name="ir_angle1" value="${radians(17.5)}" />
+  <xacro:property name="ir_angle2" value="${radians(42.5)}" />
 
-	<xacro:property name="ir_under_x" value="0.030" />
-	<xacro:property name="ir_under_y" value="0.012" />
+  <xacro:property name="ir_under_x" value="0.030" />
+  <xacro:property name="ir_under_y" value="0.012" />
 
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
   <xacro:include filename="$(find prisme_description)/urdf/prisme.gazebo" />
@@ -43,14 +43,14 @@
     <collision>
       <origin xyz="0 0 0" rpy="${pi/2} 0 ${pi/2}"/>
       <geometry>
-				<mesh filename="package://prisme_description/meshes/simplified_body_v2.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://prisme_description/meshes/simplified_body_v2.stl" scale="0.001 0.001 0.001"/>
       </geometry>
     </collision>
 
     <visual>
       <origin xyz="-${length/2} -${width/2+offset_side+wheel_thick/2+0.0025} -${0.020}" rpy="${pi/2} 0 ${pi/2}"/>
       <geometry>
-				<mesh filename="package://prisme_description/meshes/body.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://prisme_description/meshes/body.stl" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="orange"/>
     </visual>
@@ -61,191 +61,191 @@
       <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
       <mass value="${mass_body}"/>
       <inertia 
-				ixx="${3e-4}" ixy="0.0" ixz="0.0"
-	  		iyy="${5e-4}" iyz="0.0"
-	  		izz="${6e-4}"/>
+        ixx="${3e-4}" ixy="0.0" ixz="0.0"
+        iyy="${5e-4}" iyz="0.0"
+        izz="${6e-4}"/>
     </inertial>
-	</link>
+  </link>
 
-	<joint name="joint_base_dummy_inertia" type="fixed">
-  	<parent link="base"/>
-  	<child link="base_dummy_inertia"/>
-  	<origin xyz="0 0 0" rpy="0 0 0"/>
-	</joint>
+  <joint name="joint_base_dummy_inertia" type="fixed">
+    <parent link="base"/>
+    <child link="base_dummy_inertia"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
 
-	<!-- Wheel Macro -->
-	<xacro:macro name="wheel" params="side reflect">
-		<link name="wheel_${side}">
-			<collision>
-				<origin rpy="${reflect*pi/2} 0 0" />
-				<geometry>
-					<cylinder length="${wheel_thick}" radius="${wheel_radius}" />
-				</geometry>
-			</collision>
+  <!-- Wheel Macro -->
+  <xacro:macro name="wheel" params="side reflect">
+    <link name="wheel_${side}">
+      <collision>
+        <origin rpy="${reflect*pi/2} 0 0" />
+        <geometry>
+          <cylinder length="${wheel_thick}" radius="${wheel_radius}" />
+        </geometry>
+      </collision>
 
-			<visual>
-				<origin xyz="${wheel_radius} -${wheel_thick/2} -${wheel_radius}" rpy="0 0 ${pi/2}" />
-				<geometry>
-					<mesh filename="package://prisme_description/meshes/wheel.stl" scale="0.001 0.001 0.001"/>
-				</geometry>
+      <visual>
+        <origin xyz="${wheel_radius} -${wheel_thick/2} -${wheel_radius}" rpy="0 0 ${pi/2}" />
+        <geometry>
+          <mesh filename="package://prisme_description/meshes/wheel.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
         <material name="blue"/>
-			</visual>
+      </visual>
 
-		  <inertial>
-		    <origin xyz="0 0 0" rpy="0 0 0"/>
-		    <mass value="${mass_wheel}"/>
-		    <inertia 
-					ixx="${0.8e-5}" ixy="0.0" ixz="0.0"
-					iyy="${1.5e-5}" iyz="0.0"
-					izz="${0.8e-5}"/>
-		  </inertial>
-		</link>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${mass_wheel}"/>
+        <inertia 
+          ixx="${0.8e-5}" ixy="0.0" ixz="0.0"
+          iyy="${1.5e-5}" iyz="0.0"
+          izz="${0.8e-5}"/>
+      </inertial>
+    </link>
 
-		<joint name="joint_${side}" type="continuous">
-    	<parent link="base"/>
-    	<child link="wheel_${side}"/>
-    	<origin xyz="0 ${reflect*(width/2+offset_side+wheel_thick/2)} ${height_axis}" rpy="0 0 0"/>
-    	<axis xyz="0 1 0"/>
-			<limit
-				effort="100"
-				velocity="10" />
-    	<dynamics friction="1" damping="1.0"/>
-  	</joint>
+    <joint name="joint_${side}" type="continuous">
+      <parent link="base"/>
+      <child link="wheel_${side}"/>
+      <origin xyz="0 ${reflect*(width/2+offset_side+wheel_thick/2)} ${height_axis}" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit
+        effort="100"
+        velocity="10" />
+      <dynamics friction="1" damping="1.0"/>
+    </joint>
 
-		<transmission name="trans_${side}">
-			<type>transmission_interface/SimpleTransmission</type>
-			<joint name="joint_${side}">
-				<hardwareInterface>VelocityJointInterface</hardwareInterface>
-			</joint>
-			<actuator name="motor_${side}">
-				<hardwareInterface>VelocityJointInterface</hardwareInterface>
-				<mechanicalReduction>1</mechanicalReduction>
-			</actuator>
-		</transmission>
+    <transmission name="trans_${side}">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="joint_${side}">
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="motor_${side}">
+        <hardwareInterface>VelocityJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
 
-	</xacro:macro>
+  </xacro:macro>
 
-	<!-- Wheels -->
-	<xacro:wheel side="left" reflect="1" />
-	<xacro:wheel side="right" reflect="-1" />
+  <!-- Wheels -->
+  <xacro:wheel side="left" reflect="1" />
+  <xacro:wheel side="right" reflect="-1" />
 
-	<!-- Caster rod Link -->
-	<link name="caster_rod">
-		<collision>
-			<geometry>
-				<cylinder length="${caster_rod_length}" radius="${caster_sphere_rad/3}"/>
-			</geometry>
-		</collision>
-	</link>
+  <!-- Caster rod Link -->
+  <link name="caster_rod">
+    <collision>
+      <geometry>
+        <cylinder length="${caster_rod_length}" radius="${caster_sphere_rad/3}"/>
+      </geometry>
+    </collision>
+  </link>
 
-	<!-- Caster rod Joint -->
-	<joint name="joint_caster_rod" type="fixed">
-  	<parent link="base"/>
-  	<child link="caster_rod"/>
-  	<origin xyz="${-caster_offset} 0 ${-caster_rod_length/2}" rpy="0 0 0"/>
-	</joint>
+  <!-- Caster rod Joint -->
+  <joint name="joint_caster_rod" type="fixed">
+    <parent link="base"/>
+    <child link="caster_rod"/>
+    <origin xyz="${-caster_offset} 0 ${-caster_rod_length/2}" rpy="0 0 0"/>
+  </joint>
 
-	<!-- Caster sphere Link -->
-	<link name="caster_sphere">
-		<collision>
-			<geometry>
-				<sphere radius="${caster_sphere_rad}"/>
-			</geometry>
-		</collision>
-	</link>
+  <!-- Caster sphere Link -->
+  <link name="caster_sphere">
+    <collision>
+      <geometry>
+        <sphere radius="${caster_sphere_rad}"/>
+      </geometry>
+    </collision>
+  </link>
 
-	<!-- Caster sphere Joint -->
-	<joint name="joint_caster_sphere" type="fixed">
-  	<parent link="caster_rod"/>
-  	<child link="caster_sphere"/>
-  	<origin xyz="0 0 ${-caster_rod_length/2-caster_sphere_rad}" rpy="0 0 0"/>
-	</joint>
+  <!-- Caster sphere Joint -->
+  <joint name="joint_caster_sphere" type="fixed">
+    <parent link="caster_rod"/>
+    <child link="caster_sphere"/>
+    <origin xyz="0 0 ${-caster_rod_length/2-caster_sphere_rad}" rpy="0 0 0"/>
+  </joint>
 
-	<!-- Bpack Link -->
-	<link name="bpack">
-		<collision>
-			<geometry>
-				<box size="${bpack_length} ${bpack_width} ${bpack_height}"/>
-			</geometry>
-		</collision>
+  <!-- Bpack Link -->
+  <link name="bpack">
+    <collision>
+      <geometry>
+        <box size="${bpack_length} ${bpack_width} ${bpack_height}"/>
+      </geometry>
+    </collision>
 
-	  <inertial>
-	    <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-	    <mass value="${mass_bpack}"/>
-	    <inertia 
-				ixx="${1.5e-4}" ixy="0.0" ixz="0.0"
-				iyy="${1e-4}" iyz="0.0"
-				izz="${0.7e-4}"/>
-	  </inertial>
-	</link>
+    <inertial>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <mass value="${mass_bpack}"/>
+      <inertia 
+        ixx="${1.5e-4}" ixy="0.0" ixz="0.0"
+        iyy="${1e-4}" iyz="0.0"
+        izz="${0.7e-4}"/>
+    </inertial>
+  </link>
 
-	<!-- Bpack Joint -->
-	<joint name="joint_bpack" type="fixed">
-  	<parent link="base"/>
-  	<child link="bpack"/>
-  	<origin xyz="${-(length/2 - bpack_offset - bpack_length/2)} 0 ${bpack_height/2}" rpy="0 0 0"/>
-	</joint>
+  <!-- Bpack Joint -->
+  <joint name="joint_bpack" type="fixed">
+    <parent link="base"/>
+    <child link="bpack"/>
+    <origin xyz="${-(length/2 - bpack_offset - bpack_length/2)} 0 ${bpack_height/2}" rpy="0 0 0"/>
+  </joint>
 
-	
-	<!-- IR front Macro -->
-	<xacro:macro name="ir_front" params="position angle">
-		<link name="ir_front_${position}">
-			<!--visual>
-				<geometry>
-					<box size="0.007 0.010 0.005"/>
-				</geometry>
-				<material name="green"/>
-			</visual-->
-		</link>
+  
+  <!-- IR front Macro -->
+  <xacro:macro name="ir_front" params="position angle">
+    <link name="ir_front_${position}">
+      <!--visual>
+        <geometry>
+          <box size="0.007 0.010 0.005"/>
+        </geometry>
+        <material name="green"/>
+      </visual-->
+    </link>
 
-		<joint name="joint_ir_front_${position}" type="fixed">
-			<parent link="base"/>
-			<child link="ir_front_${position}"/>
-			<origin xyz="${ir_front_rad*cos(angle)} ${ir_front_rad*sin(angle)} 0.018" rpy="0 0 ${angle}"/>
-		</joint>
-	</xacro:macro>
+    <joint name="joint_ir_front_${position}" type="fixed">
+      <parent link="base"/>
+      <child link="ir_front_${position}"/>
+      <origin xyz="${ir_front_rad*cos(angle)} ${ir_front_rad*sin(angle)} 0.018" rpy="0 0 ${angle}"/>
+    </joint>
+  </xacro:macro>
 
-	<xacro:ir_front position="left_center" angle="${ir_angle1}" />
-	<xacro:ir_front position="right_center" angle="${-ir_angle1}" />
-	<xacro:ir_front position="left" angle="${ir_angle2}" />
-	<xacro:ir_front position="right" angle="${-ir_angle2}" />
+  <xacro:ir_front position="left_center" angle="${ir_angle1}" />
+  <xacro:ir_front position="right_center" angle="${-ir_angle1}" />
+  <xacro:ir_front position="left" angle="${ir_angle2}" />
+  <xacro:ir_front position="right" angle="${-ir_angle2}" />
 
-	<!-- IR under Macro -->
-	<xacro:macro name="ir_under" params="position reflect">
-		<link name="ir_under_${position}">
-			<visual>
-				<geometry>
-					<box size="0.005 0.010 0.007"/>
-				</geometry>
-				<material name="green"/>
-			</visual>
-		</link>
+  <!-- IR under Macro -->
+  <xacro:macro name="ir_under" params="position reflect">
+    <link name="ir_under_${position}">
+      <visual>
+        <geometry>
+          <box size="0.005 0.010 0.007"/>
+        </geometry>
+        <material name="green"/>
+      </visual>
+    </link>
 
-		<joint name="joint_ir_under_${position}" type="fixed">
-			<parent link="base"/>
-			<child link="ir_under_${position}"/>
-			<origin xyz="${ir_under_x} ${ir_under_y*reflect} 0" rpy="0 ${pi/2} 0"/>
-		</joint>
-	</xacro:macro>
+    <joint name="joint_ir_under_${position}" type="fixed">
+      <parent link="base"/>
+      <child link="ir_under_${position}"/>
+      <origin xyz="${ir_under_x} ${ir_under_y*reflect} 0" rpy="0 ${pi/2} 0"/>
+    </joint>
+  </xacro:macro>
 
-	<xacro:ir_under position="left" reflect="1" />
-	<xacro:ir_under position="right" reflect="-1" />
+  <xacro:ir_under position="left" reflect="1" />
+  <xacro:ir_under position="right" reflect="-1" />
 
-	<!-- Linear Camera Link -->
-	<link name="lc">
-		<!--visual>
-			<geometry>
-				<box size="0.01 0.017 0.017"/>
-			</geometry>
-			<material name="green"/>
-		</visual-->
-	</link>
+  <!-- Linear Camera Link -->
+  <link name="lc">
+    <!--visual>
+      <geometry>
+        <box size="0.01 0.017 0.017"/>
+      </geometry>
+      <material name="green"/>
+    </visual-->
+  </link>
 
-	<!-- Linear Camera Joint -->
-	<joint name="joint_lc" type="fixed">
-  	<parent link="base"/>
-  	<child link="lc"/>
-  	<origin xyz="0.04 -0.008 0.065" rpy="0 0 0"/>
-	</joint>
+  <!-- Linear Camera Joint -->
+  <joint name="joint_lc" type="fixed">
+    <parent link="base"/>
+    <child link="lc"/>
+    <origin xyz="0.04 -0.008 0.065" rpy="0 0 0"/>
+  </joint>
 
 </robot>

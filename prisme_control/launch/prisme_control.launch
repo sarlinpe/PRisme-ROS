@@ -1,8 +1,8 @@
 <launch>
 
-	<!-- Generate URDF file -->
-	<param name="robot_description"
-		command="$(find xacro)/xacro '--inorder' '$(find prisme_description)/urdf/prisme.xacro'" />
+  <!-- Generate URDF file -->
+  <param name="robot_description"
+    command="$(find xacro)/xacro '--inorder' '$(find prisme_description)/urdf/prisme.xacro'" />
 
   <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find prisme_control)/config/prisme_control_diff.yaml" command="load"/>
