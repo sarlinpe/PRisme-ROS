@@ -78,8 +78,8 @@ It is easy to modify the 3D models or to add new sensors by [editing the `.urdf`
 New simulation cases can be created by adding `.world` files to the `prisme_gazebo/worlds` directory.
 
 ## What comes next
+* A custom hardware simulated interface for ros_control that publishes noisy discrete odometry values for quadrature encoders.
 * Tests on the real sensors to determine the actual Gaussian noise parameters.
-* A plugin publishing a discrete-value odometry topic for quadrature encoders.
 * Application nodes for sensor fusion, localisation, SLAM (with Rviz interface).
 * Microcontroller ROS firmware for the PRismino (with the Bluetooth module).
 * Examples of multi-robot simulations.
