@@ -13,8 +13,8 @@
 
   <xacro:property name="ir_fov" value="0.2" />
   <xacro:property name="ir_min_range" value="0.0" />
-  <xacro:property name="ir_max_range" value="0.2" />
-  <xacro:property name="ir_res" value="0.005" />
+  <xacro:property name="ir_max_range" value="0.1" />
+  <xacro:property name="ir_res" value="0.001" />
 
   <!-- Base -->
   <gazebo reference="base">

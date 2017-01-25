@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-"""
-Exploration node
+"""Exploration node
 ROS node for an exploration robot running in simulation using V-REP.
 """
 
@@ -10,35 +9,47 @@ import random
 import time
 from sensor_msgs.msg import Range
 from geometry_msgs.msg import Twist, Vector3
-from math import pow
 
 __author__ = "Karl Kangur"
 __email__ = "karl.kangur@gmail.com"
 
-max_distance = 0.05
 
 def process_ir_front(ir_left, ir_left_center, ir_right_center, ir_right):
     """Do obstacle avoidance."""
-    distances = [ir_left.range, ir_left_center.range, ir_right_center.range, ir_right.range]
-    weights = [(max_distance - distances[i]) for i in range(len(distances))]
-    
-    base_lin_speed = 0.12
-    base_ang_speed = 0.4
-    
-    alpha = 0.5
-    k_linear = 500
-    k_angular = 50
-    
-    delta = (1-alpha)*(weights[3]-weights[0]) + alpha*(weights[2]-weights[1])
-    
-    v_linear = base_lin_speed / (1 + pow(k_linear*abs(delta),2))
-    v_angular = base_ang_speed * k_angular * delta
-    
-    rospy.loginfo("Distances: %f %f %f %f", distances[0], distances[1], distances[2], distances[3])
-    rospy.loginfo("Weights: %f %f %f %f", weights[0], weights[1], weights[2], weights[3])
-    rospy.loginfo("Delta: %f,\tv_lin: %f, \tv_ang: %f", delta, v_linear, v_angular)
-    
-    if not rospy.is_shutdown():
+    # Define the distance to obstacle constant
+    distance_obstacle = 0.08
+    # Define the speed constants
+    speed_fast = 0.1
+    speed_slow = 0.01
+    speed_turn = 0.5
+    speed_stop = 0.0
+    # Define the time constants
+    time_turn = 2.0
+
+    # When the obstacle is detected turn on itself with a random speed
+    if (ir_left_center.range < distance_obstacle or
+            ir_left.range < distance_obstacle):
+        # Inform human
+        rospy.loginfo("Obstacle detected on the left")
+        # Stop
+        v_linear = speed_stop
+        # Turn clockwise
+        v_angular = -speed_turn
+        # Set the speed
+        set_speed(v_linear, v_angular)
+        # Wait for a random amount of time
+        time.sleep(time_turn * random.random())
+    elif (ir_right_center.range < distance_obstacle or
+            ir_right.range < distance_obstacle):
+        rospy.loginfo("Obstacle detected on the right")
+        v_linear = speed_stop
+        v_angular = speed_turn
+        set_speed(v_linear, v_angular)
+        time.sleep(time_turn * random.random())
+    else:
+        # Go straight forward
+        v_linear = speed_fast
+        v_angular = speed_stop
         set_speed(v_linear, v_angular)
 
 
@@ -78,10 +89,8 @@ def initialize():
     # Subscribe to and synchronise the infra-red sensors in front of the robot
     ir_front_left = message_filters.Subscriber(namespace+"ir_front_left", Range)
     ir_front_right = message_filters.Subscriber(namespace+"ir_front_right", Range)
-    ir_front_left_center = message_filters.Subscriber(
-        namespace+"ir_front_left_center", Range)
-    ir_front_right_center = message_filters.Subscriber(
-        namespace+"ir_front_right_center", Range)
+    ir_front_left_center = message_filters.Subscriber(namespace+"ir_front_left_center", Range)
+    ir_front_right_center = message_filters.Subscriber(namespace+"ir_front_right_center", Range)
     # Wait for all topics to arrive before calling the callback
     ts_ir_front = message_filters.TimeSynchronizer([
         ir_front_left,

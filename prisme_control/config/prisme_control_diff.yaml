@@ -5,7 +5,7 @@ prisme:
     publish_rate: 50
 
   vel_controller:
-    type: "diff_drive_controller/DiffDriveController"
+    type: diff_drive_controller/DiffDriveController
     publish_rate: 50
 
     left_wheel: 'joint_left'
