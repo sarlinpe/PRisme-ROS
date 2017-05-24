@@ -6,7 +6,9 @@ import random
 import time
 import struct
 from sensor_msgs.msg import Range, PointCloud2, PointField
+import sensor_msgs.point_cloud2 as pcl2
 from geometry_msgs.msg import Twist, Vector3
+from std_msgs.msg import Header
 from math import cos, sin, radians
 
 
@@ -17,51 +19,37 @@ ir_angle2 = radians(42.5)
 
 def process_ir_front(ir_left, ir_left_center, ir_right_center, ir_right):
     rospy.loginfo("Computing PointCloud.")
-    msg = PointCloud2() 
-    msg.header.seq = 0
-    msg.header.stamp = rospy.Time.now()
-    msg.header.frame_id = "base"
-    
-    msg.is_bigendian = False
-    msg.height = 1
-    msg.width = 4
-    msg.point_step = 12 # 3 dimensions, 4 bytes each
-    msg.row_step = msg.point_step * msg.width
-    msg.is_dense = True
-    
-    msg.fields = []
-    field_names = ["x","y","z"]
-    field = PointField()
-    field.datatype = 7
-    field.count = 1
-    for i in range(0,3):
-        field.name = field_names[i]
-        field.offset = 4*i
-        msg.fields.append(field)
-    
+
+    header = Header()
+    header.seq = 0
+    header.stamp = rospy.Time.now()
+    header.frame_id = "base"
+
+    pts = []
     distances = [ir_left.range, ir_left_center.range, ir_right_center.range, ir_right.range]
     angles = [ir_angle2, ir_angle1, -ir_angle1, -ir_angle2]
-    data_floats = []
     for i in range(0,4):
-        data_floats.append((distances[i]+ir_front_radius)*cos(angles[i]))
-        data_floats.append((distances[i]+ir_front_radius)*sin(angles[i]))
-        data_floats.append(ir_z_offset)
+        pt = []
+        pt.append((distances[i]+ir_front_radius)*cos(angles[i]))
+        pt.append((distances[i]+ir_front_radius)*sin(angles[i]))
+        pt.append(ir_z_offset)
+        pts.append(pt)
 
-    msg.data = list(bytearray(struct.pack("%sf" % len(data_floats),*data_floats)))
+    msg = pcl2.create_cloud_xyz32(header, pts)
 
     pub.publish(msg)
 
 
 def initialize():
     global pub
-    namespace = "/prisme/"    
+    namespace = "/prisme/"
 
     # Provide a name for the node
     rospy.init_node("ir_point_cloud", anonymous=True)
-    
+
     # Give some feedback in the terminal
     rospy.loginfo("Conversion of IR ranges into a point cloud.")
-    
+
     # Subscribe to and synchronise the infra-red sensors in front of the robot
     ir_front_left = message_filters.Subscriber(namespace+"ir_front_left", Range)
     ir_front_right = message_filters.Subscriber(namespace+"ir_front_right", Range)
