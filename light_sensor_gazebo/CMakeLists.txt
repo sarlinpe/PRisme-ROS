@@ -22,6 +22,7 @@ include_directories(include)
 include_directories( ${catkin_INCLUDE_DIRS} 
                      ${Boost_INCLUDE_DIR} 
                      ${GAZEBO_INCLUDE_DIRS}
+                     ${OGRE_INCLUDE_DIRS}/Paging # workaround for: "/usr/include/OGRE/Terrain/OgreTerrainPaging.h:33:35: fatal error: OgrePagedWorldSection.h: No such file or directory"
 )
 
 add_library(${PROJECT_NAME} src/light_sensor_plugin.cpp)
