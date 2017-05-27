@@ -7,7 +7,7 @@
   <!-- Send fake joint values -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
   <!-- Generate tf -->
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+  <!--<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>-->
 
   <!-- Show in Rviz   -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find prisme_description)/launch/prisme.rviz"/>

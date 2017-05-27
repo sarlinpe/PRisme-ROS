@@ -1,0 +1,53 @@
+<!-- TODO: add the namespace as a rosparam instead of harcoding it, same for the IR max range -->
+
+<launch>
+
+  <include file="$(find prisme_gazebo)/launch/prisme_obstacles.launch" />
+  <include file="$(find prisme_control)/launch/prisme_control.launch" />
+  <include file="$(find prisme_description)/launch/prisme_rviz.launch" />
+
+  <node pkg="prisme_command" type="obstacles.py" name="obstacles" />
+  <node pkg="prisme_command" type="ir_to_pointcloud.py" name="pcl_generator" />
+
+  <!-- Transform the point cloud to laser scan -->
+  <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan_node" output="screen" >
+    <remap from="cloud_in" to="/prisme/ir_front_pointcloud" />
+    <remap from="scan" to="/prisme/ir_front_laserscan" />
+    <param name="min_height" value="-1.0" />
+    <param name="max_height" value="1.0" />
+    <param name="range_min" value="0.0" />
+    <param name="range_max" value="0.16" /> <!-- IR max range is 0.1 -->
+  </node>
+
+  <node pkg="gmapping" type="slam_gmapping" name="slam_gmapping" >
+    <remap from="scan" to="/prisme/ir_front_laserscan" />
+    <param name="base_frame" value="base" />
+
+    <!-- Since the odometry is perfect in simulation set the motion model noise to zero -->
+    <param name="minimumScore" value="10000" />
+    <param name="srr" value="0.0" />
+    <param name="srt" value="0.0" />
+    <param name="str" value="0.0" />
+    <param name="stt" value="0.0" />
+    <param name="particles" value="2" />
+
+    <!-- Define map size, 4 by 4 meters -->
+    <param name="xmin" value="-2" />
+    <param name="xmax" value="2" />
+    <param name="ymin" value="-2" />
+    <param name="ymax" value="2" />
+    <!-- Define map resolution -->
+    <param name="delta" value="0.01" />
+
+    <!-- Maximum real and usage ranges of the sensor -->
+    <param name="maxRange" value="0.16" />
+    <param name="maxUrange" value="0.159" />
+
+    <!-- Update map at 10Hz -->
+    <param name="map_update_interval" value="0.1" />
+    <!-- Update after every moved centimeter -->
+    <param name="linearUpdate" value="0.01" />
+    <!-- Update after every 0.01 radian turn -->
+    <param name="angularUpdate" value="0.01" />
+  </node>
+</launch>
