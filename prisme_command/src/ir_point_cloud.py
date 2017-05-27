@@ -12,15 +12,14 @@ from std_msgs.msg import Header
 from math import cos, sin, radians
 
 
-''' Node parameters '''
-namespace = "/prisme/"
 ir_front_radius = 0.06
 ir_z_offset = 0.01725
 ir_angle1 = radians(17.5)
 ir_angle2 = radians(42.5)
 
+def process_ir_front(ir_left, ir_left_center, ir_right_center, ir_right):
+    rospy.loginfo("Computing PointCloud.")
 
-def ir_to_pointcloud(ir_left, ir_left_center, ir_right_center, ir_right):
     header = Header()
     header.seq = 0
     header.stamp = rospy.Time.now()
@@ -37,16 +36,21 @@ def ir_to_pointcloud(ir_left, ir_left_center, ir_right_center, ir_right):
         pts.append(pt)
 
     msg = pcl2.create_cloud_xyz32(header, pts)
+
     pub.publish(msg)
 
 
 def initialize():
     global pub
+    namespace = "/prisme/"
 
-    rospy.init_node("ir_to_pointcloud", anonymous=True)
-    rospy.loginfo("Initialization: IR to Pointcloud converter node.")
+    # Provide a name for the node
+    rospy.init_node("ir_point_cloud", anonymous=True)
 
-    # IR sensors require synchronisation
+    # Give some feedback in the terminal
+    rospy.loginfo("Conversion of IR ranges into a point cloud.")
+
+    # Subscribe to and synchronise the infra-red sensors in front of the robot
     ir_front_left = message_filters.Subscriber(namespace+"ir_front_left", Range)
     ir_front_right = message_filters.Subscriber(namespace+"ir_front_right", Range)
     ir_front_left_center = message_filters.Subscriber(namespace+"ir_front_left_center", Range)
@@ -58,11 +62,14 @@ def initialize():
                                                   ir_front_right_center,
                                                   ir_front_right], 1)
     # Register the callback to be called when all sensor readings are ready
-    ts_ir_front.registerCallback(ir_to_pointcloud)
+    ts_ir_front.registerCallback(process_ir_front)
 
-    pub = rospy.Publisher(namespace+"ir_front_pointcloud", PointCloud2, queue_size=1)
+
+    # Publish the linear and angular velocities so the robot can move
+    pub = rospy.Publisher("ir_front_pointcloud", PointCloud2, queue_size=1) # add namespace again
+
+    # spin() keeps python from exiting until this node is stopped
     rospy.spin()
-
 
 if __name__ == "__main__":
     initialize()
