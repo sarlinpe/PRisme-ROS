@@ -1,32 +1,43 @@
-# PRisme Simulation
-This projects aims at developing a comprehensive realistic simulation environment for Robopoly’s [PRisme robotics platform](http://robopoly.epfl.ch/prisme) and [printed base](https://github.com/Robopoly/Printed-base). It is based on the [Robot Operating System (ROS)](http://www.ros.org), a hassle-free robotics framework, and [Gazebo](http://gazebosim.org), a powerful simulation software.
+# PRisme ROS
+This projects aims at developing a comprehensive development environment for [Robopoly](http://robopoly.epfl.ch/)’s [PRisme robotics platform](http://robopoly.epfl.ch/prisme), based on [ROS](http://www.ros.org), a standardised and modular robotics framework. 
 
-One might use this as a base for the simulation of a more advanced robot by modifying its physical description or by adding new sensors. It can also be considered as an educational tool for the study of robotics software and algorithms in applications such as localisation or path planing without the need to access the physical robot.
+We propose to decouple the high-level application software from the low-level and hardware-dependent firmware, and demonstrate its use with two interchangeable modules: a realistic simulation based on [Gazebo](http://gazebosim.org), and a software layer for the PRismino microcontroller.
+
+<p align="center">
+	<img src="doc/ir_front_obstacles.jpg" width=“650"/>
+</p>
+
+<!--
+One might use this as a starting point for the simulation of a more advanced robot by modifying its physical description or by adding new sensors. It can also be considered as an educational tool for the study of robotics software and algorithms in applications such as localisation or path planing without the need to access the physical robot.
+
+ and [printed base](https://github.com/Robopoly/Printed-base)
+-->
 
 ## Scope
-Software development is particularly difficult in robotics, as the execution of the code (the application) highly depends on the proper functioning of the hardware (mechanics and electronics).
-Robotics simulations aim at overcoming this problem by making robot software development less dependent on the actual physical hardware. This allows to split tasks among the development team, increasing time-efficiency. It is really easy to move to the physical robot once it is ready, as the software does not need to be adapted.
+Software development for robotics can be particularly tricky, as the execution of the code (the application) highly depends on the proper functioning of the hardware (mechanics and electronics). 
+Robotics simulations and frameworks aim at overcoming this problem by making robot software development less dependent on the actual physical hardware.
 
+As such, the high-level application can already be designed and tested in simulation at early development stages, while the hardware and firmware can be independently developed. The seamless transition from the simulation to the physical robot is made possible by the ROS framework, which provides a way to develop software portions as computational units (*nodes*) that communicate with standard packets (*messages*) and can be run and tested independently from each other (see [this](http://wiki.ros.org/ROS/Introduction) for a comprehensive introduction).
 
-The ROS framework brings this further, by providing a way to develop software portions as computational units (*nodes*) that communicate with standard packets (*messages*) and can be run and tested independently from each other (see [this](http://wiki.ros.org/ROS/Introduction) for a comprehensive introduction).
+## Main features
+Five ROS packages make up the core of this project:
 
-## Features
-Five ROS packages are the core of this simulation environment:
 * `prisme_description`: the physical description of the robot, including 3D models, instantiations of sensors and the Rviz launcher
-* `prisme_gazebo`: maps and launchers for gazebo scenarios
+* `prisme_command`: the high-level application nodes, written in `C++` or `Python`, and running in a Linux environment 
+* `prisme_gazebo`: the simulation setup, including maps and launchers for a variety of scenarios
+* `prisme_firmware`: the low-level firmware layer running on the embedded microcontroller
 * `prisme_control`: the controller for the differential drive
-* `prisme_command`: high level application nodes
 
-Currently implemented sensors are:
-* IR range sensors (4 in the front)
-* IR light sensors (2 under, `light_sensor_gazebo` package)
-* Linear camera
-* IMU (`imu_gazebo` package)
-* Encoders
+### Simulation
 
-Simulation realism is improved by using real mass and inertia values for the 3D model and by adding a realistic noise to all sensors.
+Currently implemented sensors include infra-red (IR) range sensors, IR light sensors, linear camera, IMU and encoders.
+Simulation realism is improved by using real mass and inertia values for the 3D model and by adding a realistic gaussian noise to all sensors. 
+Simulation performance is improved by simultaneously using two different types of 3D models: a visual mesh corresponding to the physical robot's appearance, and a simplified collision model used by Gazebo physics engine.
 
-Simulation performance is improved by simultaneously using two different types of 3D models: a visual mesh corresponding to the physical robot's appearance, and a collision (simplified) model used by Gazebo physics engine.
+### Firmware
+The microcontroller and the high-level computational unit communicate through a Serial interface, either over a wire or over Bluetooth. 
+Thus, testing can be performed by running the application on a standalone computer, sending the motor commands or receiving the sensor inputs using a Bluetooth module. 
+For deployment, an embedded single board computer, such as a Raspberry Pi, can perform the computationally-intensive tasks and communicate with the hardware interface using a more robust wired Serial.
 
 ## Installation
 First of all, ensure that [ROS Jade](http://wiki.ros.org/jade/Installation) as well as the corresponding `gazebo-5` and `ros_control` packages are installed.
@@ -41,14 +52,9 @@ $ cd ~/catkin_ws
 $ catkin make
 ```
 
-It is recommended to create in your  workspace a bash script containing the following lines:
+For every new terminal window, do not forget to source the setup file:
 ```
 $ source ~/catkin_sw/devel/setup.bash
-$ source /opt/ros/jade/setup.bash
-```
-This should be executed in every new terminal window as:
-```
-$ . <script_name>.sh
 ```
 
 ## Usage
@@ -60,17 +66,22 @@ $ roslaunch prisme_description prisme_rviz.launch
 $ rosrun prisme_command line_follower.py
 ```
 
-One can alternatively create a [global launcher](http://wiki.ros.org/roslaunch/XML) that will take care of the individual nodes and that can be run this way:
+One can alternatively create a [global launcher](http://wiki.ros.org/roslaunch/XML) that will take care of starting the individual nodes and that can be run this way:
 ```
 $ roslaunch prisme_command line.launch
 ```
 
-## Application
+## Exemples of applications
 A new high-level application node can be written (in Python for instance) and added to the `prisme_command/src` directory. It can read sensor values by subscribing to topics that regularly publish messages and whose list can be obtained from `$ rostopic list`.
 
-This project currently contains two application examples:
+This project currently contains three application examples based on the PRisme 3D-printed [base](https://github.com/Robopoly/Printed-base):
 * Line following using IR (light) sensors and a P controller
-* Obstacle avoidance using IR (range) sensors
+* Obstacle avoidance using IR (range) sensors and Braitenberg-like behaviour
+* Environment mapping using IR sensors and the ROS `slam_gmapping` package
+
+<p align="center">
+	<img src="doc/line_follower.gif" width=“650"/>
+</p>
 
 ## Customisation
 It is easy to modify the 3D models or to add new sensors by [editing the `.urdf` and `.gazebo` files](http://gazebosim.org/tutorials?tut=ros_urdf&cat=connect_ros) in the `gazebo_description/urdf` directory.
@@ -78,12 +89,10 @@ It is easy to modify the 3D models or to add new sensors by [editing the `.urdf`
 New simulation cases can be created by adding `.world` files to the `prisme_gazebo/worlds` directory.
 
 ## What comes next
-* A custom hardware simulated interface for ros_control that publishes noisy discrete odometry values for quadrature encoders.
+* A custom hardware simulated interface for `ros_control` that publishes noisy discrete odometry values for quadrature encoders.
 * Tests on the real sensors to determine the actual Gaussian noise parameters.
-* Application nodes for sensor fusion, localisation, SLAM (with Rviz interface).
-* Microcontroller ROS firmware for the PRismino (with the Bluetooth module).
 * Examples of multi-robot simulations.
-* Examples of neural network training using multiple simulation instances.
+* Reinforcement learning using multiple simulation instances.
 
 ## Credits
 This project was entirely developed by Paul-Edouard Sarlin.
