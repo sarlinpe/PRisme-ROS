@@ -2,11 +2,11 @@
 <COLLADA version="1.4.0" xmlns="http://www.collada.org/2005/11/COLLADASchema">
 	<asset>
 		<contributor>
-			<author>Paul-Edouard Sarlin https://github.com/Skydes</author>
+			<author> SimLab Soft http://www.simLab-soft.com </author>
 			<authoring_tool>SimLab Collada Exporter for Fusion 360</authoring_tool>
 		</contributor>
-		<created>2017-06-08T00:17:41</created>
-		<modified>2017-06-08T00:17:41</modified>
+		<created>2017-06-11T14:09:57</created>
+		<modified>2017-06-11T14:09:57</modified>
 		<unit meter="1.000000000000000" name="Meter"/>
 		<up_axis>Z_UP</up_axis>
 	</asset>
@@ -18,7 +18,7 @@
 					<matrix> 1 0 0 0 0 0 -1 -0.48585 0 1 0 0.0280917 0 0 0 1 </matrix>
 					<instance_camera url="#ID1" />
 				</node>
-				<node  id="ID2" name="assembly_v7">
+				<node  id="ID2" name="assembly_v9">
 					<matrix> 0.01 0 0 0 0 0 -0.01 0 0 0.01 0 0 0 0 0 1 </matrix>
 					<node  id="ID3" name="base">
 						<matrix> 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 </matrix>
@@ -275,12 +275,12 @@
 										</bind_material>
 									</instance_geometry>
 								</node>
-								<node  id="ID65" name="Body1_Opaque(128_128_128)_(1)">
+								<node  id="ID65" name="Body1_Opaque(0_255_0)_(1)">
 									<matrix> 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 </matrix>
 									<instance_geometry url="#ID66">
 										<bind_material>
 											<technique_common>
-												<instance_material symbol="Opaque(128_128_128)_(1)" target="#ID67">
+												<instance_material symbol="Opaque(0_255_0)_(1)" target="#ID67">
 													<bind_vertex_input semantic="UVSET0" input_semantic="TEXCOORD" input_set="0" />
 												</instance_material>
 											</technique_common>
@@ -317,12 +317,12 @@
 										</bind_material>
 									</instance_geometry>
 								</node>
-								<node  id="ID75" name="Body1_Opaque(128_128_128)_(1)">
+								<node  id="ID75" name="Body1_Opaque(0_255_0)_(1)">
 									<matrix> 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 </matrix>
 									<instance_geometry url="#ID76">
 										<bind_material>
 											<technique_common>
-												<instance_material symbol="Opaque(128_128_128)_(1)" target="#ID67">
+												<instance_material symbol="Opaque(0_255_0)_(1)" target="#ID67">
 													<bind_vertex_input semantic="UVSET0" input_semantic="TEXCOORD" input_set="0" />
 												</instance_material>
 											</technique_common>
@@ -359,12 +359,12 @@
 										</bind_material>
 									</instance_geometry>
 								</node>
-								<node  id="ID83" name="Body1_Opaque(128_128_128)_(1)">
+								<node  id="ID83" name="Body1_Opaque(0_255_0)_(1)">
 									<matrix> 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 </matrix>
 									<instance_geometry url="#ID84">
 										<bind_material>
 											<technique_common>
-												<instance_material symbol="Opaque(128_128_128)_(1)" target="#ID67">
+												<instance_material symbol="Opaque(0_255_0)_(1)" target="#ID67">
 													<bind_vertex_input semantic="UVSET0" input_semantic="TEXCOORD" input_set="0" />
 												</instance_material>
 											</technique_common>
@@ -401,12 +401,12 @@
 										</bind_material>
 									</instance_geometry>
 								</node>
-								<node  id="ID91" name="Body1_Opaque(128_128_128)_(1)">
+								<node  id="ID91" name="Body1_Opaque(0_255_0)_(1)">
 									<matrix> 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 </matrix>
 									<instance_geometry url="#ID92">
 										<bind_material>
 											<technique_common>
-												<instance_material symbol="Opaque(128_128_128)_(1)" target="#ID67">
+												<instance_material symbol="Opaque(0_255_0)_(1)" target="#ID67">
 													<bind_vertex_input semantic="UVSET0" input_semantic="TEXCOORD" input_set="0" />
 												</instance_material>
 											</technique_common>
@@ -946,7 +946,7 @@
 				<vertices id="geo_8-Vertex">
 					<input semantic="POSITION" source="#geo_8-Position"/>
 				</vertices>
-				<triangles count="2" material="Opaque(128_128_128)_(1)">
+				<triangles count="2" material="Opaque(0_255_0)_(1)">
 					<input offset="0" semantic="VERTEX" source="#geo_8-Vertex"/>
 					<input offset="1" semantic="NORMAL"  source="#geo_8-Normals"/>
 					<p>0 0 1 1 2 2 2 2 1 1 3 3 </p>
@@ -1074,7 +1074,7 @@
 				<vertices id="geo_12-Vertex">
 					<input semantic="POSITION" source="#geo_12-Position"/>
 				</vertices>
-				<triangles count="2" material="Opaque(128_128_128)_(1)">
+				<triangles count="2" material="Opaque(0_255_0)_(1)">
 					<input offset="0" semantic="VERTEX" source="#geo_12-Vertex"/>
 					<input offset="1" semantic="NORMAL"  source="#geo_12-Normals"/>
 					<p>0 0 1 1 2 2 2 2 1 1 3 3 </p>
@@ -1170,7 +1170,7 @@
 				<vertices id="geo_15-Vertex">
 					<input semantic="POSITION" source="#geo_15-Position"/>
 				</vertices>
-				<triangles count="2" material="Opaque(128_128_128)_(1)">
+				<triangles count="2" material="Opaque(0_255_0)_(1)">
 					<input offset="0" semantic="VERTEX" source="#geo_15-Vertex"/>
 					<input offset="1" semantic="NORMAL"  source="#geo_15-Normals"/>
 					<p>0 0 1 1 2 2 2 2 1 1 3 3 </p>
@@ -1266,7 +1266,7 @@
 				<vertices id="geo_18-Vertex">
 					<input semantic="POSITION" source="#geo_18-Position"/>
 				</vertices>
-				<triangles count="2" material="Opaque(128_128_128)_(1)">
+				<triangles count="2" material="Opaque(0_255_0)_(1)">
 					<input offset="0" semantic="VERTEX" source="#geo_18-Vertex"/>
 					<input offset="1" semantic="NORMAL"  source="#geo_18-Normals"/>
 					<p>0 0 1 1 2 2 2 2 1 1 3 3 </p>
@@ -1947,25 +1947,25 @@
 		</geometry>
 	</library_geometries>
 	<library_materials>
-		<material id="ID101" name="Steel_-_Satin">
+		<material id="ID7" name="Plastic_-_Matte_(Red)">
 			<instance_effect url="#ID137"/>
 		</material>
-		<material id="ID37" name="Plastic_-_Matte_(Gray)">
+		<material id="ID28" name="Plastic_-_Matte_(White)">
 			<instance_effect url="#ID138"/>
 		</material>
-		<material id="ID28" name="Plastic_-_Matte_(White)">
+		<material id="ID101" name="Steel_-_Satin">
 			<instance_effect url="#ID139"/>
 		</material>
-		<material id="ID67" name="Opaque(128_128_128)_(1)">
+		<material id="ID64" name="Plastic_-_Matte_(Green)">
 			<instance_effect url="#ID140"/>
 		</material>
-		<material id="ID7" name="Plastic_-_Matte_(Red)">
+		<material id="ID37" name="Plastic_-_Matte_(Gray)">
 			<instance_effect url="#ID141"/>
 		</material>
-		<material id="ID70" name="Plastic_-_Matte_(Black)">
+		<material id="ID67" name="Opaque(0_255_0)_(1)">
 			<instance_effect url="#ID142"/>
 		</material>
-		<material id="ID64" name="Plastic_-_Matte_(Green)">
+		<material id="ID70" name="Plastic_-_Matte_(Black)">
 			<instance_effect url="#ID143"/>
 		</material>
 	</library_materials>
@@ -1975,9 +1975,9 @@
 				<technique sid="standard">
 					<phong>
 						<emission><color>0 0 0 1</color></emission>
-						<ambient><color>0 0 0 1</color></ambient>
+						<ambient><color>1 0 0 1</color></ambient>
 						<diffuse>
-							<color>0.627451 0.627451 0.627451 1</color>
+							<color>1 0 0 1</color>
 						</diffuse>
 						<specular><color>1 1 1 1</color></specular>
 						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
@@ -1991,9 +1991,9 @@
 				<technique sid="standard">
 					<phong>
 						<emission><color>0 0 0 1</color></emission>
-						<ambient><color>0 0 0 1</color></ambient>
+						<ambient><color>1 1 1 1</color></ambient>
 						<diffuse>
-							<color>0.701961 0.701961 0.701961 1</color>
+							<color>1 1 0.988235 1</color>
 						</diffuse>
 						<specular><color>1 1 1 1</color></specular>
 						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
@@ -2009,7 +2009,7 @@
 						<emission><color>0 0 0 1</color></emission>
 						<ambient><color>0 0 0 1</color></ambient>
 						<diffuse>
-							<color>0.964706 0.964706 0.952941 1</color>
+							<color>0.627451 0.627451 0.627451 1</color>
 						</diffuse>
 						<specular><color>1 1 1 1</color></specular>
 						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
@@ -2023,9 +2023,9 @@
 				<technique sid="standard">
 					<phong>
 						<emission><color>0 0 0 1</color></emission>
-						<ambient><color>0 0 0 1</color></ambient>
+						<ambient><color>0 1 0 1</color></ambient>
 						<diffuse>
-							<color>0.517647 0.517647 0.517647 1</color>
+							<color>0.266667 1 0.278431 1</color>
 						</diffuse>
 						<specular><color>1 1 1 1</color></specular>
 						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
@@ -2039,9 +2039,9 @@
 				<technique sid="standard">
 					<phong>
 						<emission><color>0 0 0 1</color></emission>
-						<ambient><color>0 0 0 1</color></ambient>
+						<ambient><color>0.3 0.3 0.3 1</color></ambient>
 						<diffuse>
-							<color>0.768627 0.207843 0.152941 1</color>
+							<color>0.682353 0.682353 0.682353 1</color>
 						</diffuse>
 						<specular><color>1 1 1 1</color></specular>
 						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
@@ -2057,7 +2057,7 @@
 						<emission><color>0 0 0 1</color></emission>
 						<ambient><color>0 0 0 1</color></ambient>
 						<diffuse>
-							<color>0.0980392 0.0980392 0.0980392 1</color>
+							<color>0 1 0 1</color>
 						</diffuse>
 						<specular><color>1 1 1 1</color></specular>
 						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
@@ -2073,7 +2073,7 @@
 						<emission><color>0 0 0 1</color></emission>
 						<ambient><color>0 0 0 1</color></ambient>
 						<diffuse>
-							<color>0.266667 0.588235 0.282353 1</color>
+							<color>0.0823529 0.0823529 0.0823529 1</color>
 						</diffuse>
 						<specular><color>1 1 1 1</color></specular>
 						<transparent opaque="A_ONE"><color>1.0 1.0 1.0 1.0</color></transparent>
