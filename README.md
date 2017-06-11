@@ -1,10 +1,10 @@
 # PRisme ROS
-This projects aims at developing a comprehensive development environment for [Robopoly](http://robopoly.epfl.ch/)’s [PRisme robotics platform](http://robopoly.epfl.ch/prisme), based on [ROS](http://www.ros.org), a standardised and modular robotics framework. 
+This project aims at developing a comprehensive development environment for [Robopoly](http://robopoly.epfl.ch/)’s [PRisme](http://robopoly.epfl.ch/prisme) robotics platform using [ROS](http://www.ros.org), a standardised and modular robotics framework. 
 
 We propose to decouple the high-level application software from the low-level and hardware-dependent firmware, and demonstrate its use with two interchangeable modules: a realistic simulation based on [Gazebo](http://gazebosim.org), and a software layer for the PRismino microcontroller.
 
 <p align="center">
-	<img src="doc/ir_front_obstacles.jpg" width=“650"/>
+	<img src="doc/ir_front_obstacles.jpg" width="70%"/>
 </p>
 
 <!--
@@ -80,7 +80,7 @@ This project currently contains three application examples based on the PRisme 3
 * Environment mapping using IR sensors and the ROS `slam_gmapping` package
 
 <p align="center">
-	<img src="doc/line_follower.gif" width=“650"/>
+	<img src="doc/line_follower.gif" width="70%"/>
 </p>
 
 ## Customisation
