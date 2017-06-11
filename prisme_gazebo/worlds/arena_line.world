@@ -70,7 +70,7 @@
         </visual>
       </link>
     </model>
-  
+
     <model name="wall2">
       <static>true</static>
       <pose>0 1 0.05 0 0 0</pose>
@@ -155,12 +155,13 @@
     <model name="line1">
       <static>true</static>
       <pose>0 0 0 1.57079632679 0 0</pose>
-      <link name="link">  
+      <link name="link">
         <visual name="visual">
           <geometry>
             <mesh>
               <uri>model://prisme_gazebo/meshes/line_following_1.dae</uri>
               <scale>0.001 0.001 0.001</scale>
+            </mesh>
           </geometry>
           <material>
             <script>
@@ -170,7 +171,7 @@
           </material>
         </visual>
       </link>
-    </link>
+    </model>
 
   </world>
 </sdf>
