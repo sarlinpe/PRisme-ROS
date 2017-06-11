@@ -28,7 +28,7 @@
   <xacro:property name="ir_angle1" value="${radians(17.5)}" />
   <xacro:property name="ir_angle2" value="${radians(42.5)}" />
 
-  <xacro:property name="ir_under_x" value="0.030" />
+  <xacro:property name="ir_under_x" value="0.052" />
   <xacro:property name="ir_under_y" value="0.012" />
 
   <!-- Import all Gazebo-customization elements, including Gazebo colors -->
@@ -46,11 +46,13 @@
     </collision>
 
     <visual>
-      <origin xyz="-${length/2} -${width/2+offset_side+wheel_thick/2+0.0025} -${0.020}" rpy="${pi/2} 0 ${pi/2}"/>
+      <origin xyz="0 0 0" rpy="0 0 ${pi/2}"/>
+      <!--<origin xyz="-${length/2} -${width/2+offset_side+wheel_thick/2+0.0025} -${0.020}" rpy="${pi/2} 0 ${pi/2}"/>-->
       <geometry>
-        <mesh filename="package://prisme_description/meshes/body.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://prisme_description/meshes/body.dae"/>
+        <!--<mesh filename="package://prisme_description/meshes/body.stl" scale="0.001 0.001 0.001"/>-->
       </geometry>
-      <material name="orange"/>
+      <!--<material name="orange"/>-->
     </visual>
   </link>
 
@@ -58,7 +60,7 @@
     <inertial>
       <origin xyz="0 0 ${height/2}" rpy="0 0 0"/>
       <mass value="${mass_body}"/>
-      <inertia 
+      <inertia
         ixx="${3e-4}" ixy="0.0" ixz="0.0"
         iyy="${5e-4}" iyz="0.0"
         izz="${6e-4}"/>
@@ -82,17 +84,19 @@
       </collision>
 
       <visual>
-        <origin xyz="${wheel_radius} -${wheel_thick/2} -${wheel_radius}" rpy="0 0 ${pi/2}" />
+        <origin xyz="0 -${wheel_thick/2} 0" rpy="0 0 ${pi/2}" />
+        <!--<origin xyz="${wheel_radius} -${wheel_thick/2} -${wheel_radius}" rpy="0 0 ${pi/2}" />-->
         <geometry>
-          <mesh filename="package://prisme_description/meshes/wheel.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="package://prisme_description/meshes/wheel.dae"/>
+          <!--<mesh filename="package://prisme_description/meshes/wheel.stl" scale="0.001 0.001 0.001"/>-->
         </geometry>
-        <material name="blue"/>
+        <!--<material name="blue"/>-->
       </visual>
 
       <inertial>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <mass value="${mass_wheel}"/>
-        <inertia 
+        <inertia
           ixx="${0.8e-5}" ixy="0.0" ixz="0.0"
           iyy="${1.5e-5}" iyz="0.0"
           izz="${0.8e-5}"/>
@@ -170,7 +174,7 @@
     <inertial>
       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
       <mass value="${mass_bpack}"/>
-      <inertia 
+      <inertia
         ixx="${1.5e-4}" ixy="0.0" ixz="0.0"
         iyy="${1e-4}" iyz="0.0"
         izz="${0.7e-4}"/>
@@ -184,7 +188,7 @@
     <origin xyz="${-(length/2 - bpack_offset - bpack_length/2)} 0 ${bpack_height/2}" rpy="0 0 0"/>
   </joint>
 
-  
+
   <!-- IR front Macro -->
   <xacro:macro name="ir_front" params="position angle">
     <link name="ir_front_${position}">
@@ -211,12 +215,12 @@
   <!-- IR under Macro -->
   <xacro:macro name="ir_under" params="position reflect">
     <link name="ir_under_${position}">
-      <visual>
+      <!--visual>
         <geometry>
           <box size="0.005 0.010 0.007"/>
         </geometry>
         <material name="green"/>
-      </visual>
+      </visual-->
     </link>
 
     <joint name="joint_ir_under_${position}" type="fixed">

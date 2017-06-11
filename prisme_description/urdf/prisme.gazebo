@@ -18,7 +18,7 @@
 
   <!-- Base -->
   <gazebo reference="base">
-    <material>Gazebo/Red</material>
+    <!--<material>Gazebo/Red</material>-->
 
     <sensor name="imu" type="imu">
       <always_on>true</always_on>
@@ -58,7 +58,7 @@
     <gazebo reference="wheel_${side}">
       <mu1>30</mu1>
       <mu2>30</mu2>
-      <material>Gazebo/Black</material>
+      <!--<material>Gazebo/Black</material>-->
     </gazebo>
   </xacro:macro>
   <xacro:wheel_gz side="left"/>
